@@ -1,6 +1,4 @@
 
-export type GameId = 'HOME' | 'LAYOUT_MAGIC' | 'COMPOSE_INTRO';
-
 export enum LayoutDirection {
   ROW = 'row',
   COLUMN = 'column'
@@ -21,3 +19,13 @@ export enum CrossAxisAlignment {
   END = 'end',
   STRETCH = 'stretch'
 }
+
+export type GameStage = 
+  | 'INTRO' 
+  | 'AXIS_BASICS' // Explaining Main vs Cross
+  | 'ARRANGEMENT' // Main Axis playground
+  | 'ALIGNMENT'   // Cross Axis playground
+  | 'QUIZ_1'      // Concept check
+  | 'QUIZ_2'      // Application check
+  | 'FINAL_CHALLENGE' // Fixing the code
+  | 'VICTORY';
