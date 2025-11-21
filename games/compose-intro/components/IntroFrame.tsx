@@ -1,13 +1,14 @@
 import React, { PropsWithChildren } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Home } from 'lucide-react';
 
 interface IntroFrameProps extends PropsWithChildren {
   title: string;
   progress: number;
   totalStages: number;
+  onExit: () => void;
 }
 
-const IntroFrame: React.FC<IntroFrameProps> = ({ title, children, progress, totalStages }) => {
+const IntroFrame: React.FC<IntroFrameProps> = ({ title, children, progress, totalStages, onExit }) => {
   const progressPercentage = ((progress + 1) / totalStages) * 100;
 
   return (
@@ -24,11 +25,28 @@ const IntroFrame: React.FC<IntroFrameProps> = ({ title, children, progress, tota
         {/* Magic Header */}
         <div className="bg-purple-50 p-5 flex justify-between items-center border-b border-purple-100">
             <div className="flex items-center gap-2 text-purple-400">
-                 <Sparkles size={18} />
+                 <button 
+                    onClick={onExit}
+                    className="p-2 bg-purple-100 text-purple-700 rounded-full hover:bg-purple-200 transition-colors shadow-sm"
+                    title="返回大厅"
+                 >
+                    <Home size={20} />
+                 </button>
             </div>
             <h1 className="text-purple-900 font-black text-xl sm:text-2xl tracking-tight">{title}</h1>
-            <div className="px-3 py-1 bg-purple-100 rounded-full text-purple-600 font-bold text-xs">
-                LEVEL {progress + 1}
+            
+            <div>
+                 {totalStages > 5 ? (
+                     <div className="px-3 py-1 bg-purple-100 rounded-full text-purple-600 font-bold text-xs font-mono shadow-sm">
+                        PAGE {progress + 1} / {totalStages}
+                    </div>
+                ) : (
+                    <div className="flex gap-1.5">
+                        {Array.from({ length: totalStages }).map((_, i) => (
+                            <div key={i} className={`h-1.5 w-6 rounded-full transition-all ${i <= progress ? 'bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.6)]' : 'bg-purple-200'}`}></div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
 

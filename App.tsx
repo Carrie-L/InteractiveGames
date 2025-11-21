@@ -105,22 +105,22 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 4: Layout Magic */}
+            {/* Game Card 4: Layout Magic - UPDATED TO AMBER */}
             <button 
                 onClick={() => setActiveGame('LAYOUT_MAGIC')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
-                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                     <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <LayoutTemplate size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-700 transition-colors">布局魔法书</h3>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
                     <p className="text-gray-500 text-xs leading-relaxed mb-4">
                         Row & Column 实战，掌握主轴与交叉轴。
                     </p>
                 </div>
-                <div className="relative z-10 flex items-center text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                <div className="relative z-10 flex items-center text-amber-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
                     <GraduationCap size={12} className="mr-1" /> 进阶实战
                 </div>
             </button>

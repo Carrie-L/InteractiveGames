@@ -1,12 +1,14 @@
 import React, { PropsWithChildren } from 'react';
+import { Home } from 'lucide-react';
 
 interface BookFrameProps extends PropsWithChildren {
   title: string;
   progress: number;
   totalStages: number;
+  onExit: () => void;
 }
 
-const BookFrame: React.FC<BookFrameProps> = ({ title, children, progress, totalStages }) => {
+const BookFrame: React.FC<BookFrameProps> = ({ title, children, progress, totalStages, onExit }) => {
   const progressPercentage = ((progress + 1) / totalStages) * 100;
 
   return (
@@ -19,19 +21,34 @@ const BookFrame: React.FC<BookFrameProps> = ({ title, children, progress, totalS
         
         {/* Book Spine / Header */}
         <div className="bg-amber-50 p-4 flex justify-between items-center border-b-4 border-amber-100">
-            <div className="flex items-center gap-2 opacity-50">
-                 <div className="w-3 h-3 rounded-full bg-red-300"></div>
-                 <div className="w-3 h-3 rounded-full bg-yellow-300"></div>
-                 <div className="w-3 h-3 rounded-full bg-green-300"></div>
+            <div className="flex items-center">
+                 <button 
+                    onClick={onExit}
+                    className="p-2 bg-amber-100 text-amber-800 rounded-full hover:bg-amber-200 transition-colors"
+                    title="返回大厅"
+                 >
+                    <Home size={20} />
+                 </button>
             </div>
             <h1 className="text-amber-800 font-bold text-lg sm:text-xl tracking-widest uppercase opacity-80">{title}</h1>
-            <div className="text-amber-600 font-mono text-sm font-bold">Page {progress + 1} / {totalStages}</div>
+            
+            <div className="flex items-center">
+                {totalStages > 5 ? (
+                     <div className="text-amber-600 font-mono text-sm font-bold">Page {progress + 1} / {totalStages}</div>
+                ) : (
+                    <div className="flex gap-1.5">
+                        {Array.from({ length: totalStages }).map((_, i) => (
+                            <div key={i} className={`h-2 w-6 rounded-full transition-all ${i <= progress ? 'bg-amber-400' : 'bg-amber-200'}`}></div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
 
         {/* Paper Texture Overlay */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/cream-paper.png")' }}></div>
 
-        {/* Progress Bar (Amber Theme) */}
+        {/* Progress Bar (Amber Theme) - Bottom indicator line */}
         <div className="w-full h-2 bg-amber-50/50">
             <div 
                 className="h-full bg-gradient-to-r from-orange-300 to-amber-400 transition-all duration-500 ease-out" 

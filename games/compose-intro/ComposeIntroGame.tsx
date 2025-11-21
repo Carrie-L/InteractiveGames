@@ -344,13 +344,9 @@ export default function ComposeIntroGame({ onExit }: ComposeIntroGameProps) {
         title="Compose 魔法入门" 
         progress={currentStageIndex} 
         totalStages={STAGE_ORDER.length}
+        onExit={onExit}
     >
          <div className="min-h-[60vh] flex flex-col">
-             <div className="absolute top-4 right-4 z-50">
-                 <button onClick={onExit} className="p-2 text-purple-200 hover:bg-purple-800 rounded-full transition-colors" title="返回大厅">
-                     <Home size={24} />
-                 </button>
-             </div>
             {renderContent()}
          </div>
 

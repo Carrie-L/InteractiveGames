@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import CinemaFrame from './components/CinemaFrame';
 import XiaoQi from './components/XiaoQi';
@@ -24,6 +23,7 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
   // Projector State
   const [projectorState, setProjectorState] = useState<string>("Android");
   const [projectorOn, setProjectorOn] = useState(true);
+  const [hasInteracted, setHasInteracted] = useState(false); // Track if user used the input
 
   // Template Lab State
   const [templateCode, setTemplateCode] = useState('Text(text = "Hello, Alice")');
@@ -46,6 +46,17 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
       setCurrentStageIndex(prev => prev - 1);
     }
   };
+  
+  const resetGame = () => {
+      setCurrentStageIndex(0);
+      setProjectorState("Android");
+      setHasInteracted(false);
+      setTemplateCode('Text(text = "Hello, Alice")');
+      setTemplateSolved(false);
+      setTemplateError(null);
+      setIdempInput("");
+      setIdempHistory([]);
+  }
 
   // Template Lab Check
   const checkTemplateCode = () => {
@@ -112,7 +123,10 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
                         <input 
                             type="text" 
                             value={projectorState}
-                            onChange={(e) => setProjectorState(e.target.value)}
+                            onChange={(e) => {
+                                setProjectorState(e.target.value);
+                                setHasInteracted(true);
+                            }}
                             className="w-full text-2xl font-mono border-b-2 border-cyan-300 focus:border-cyan-600 outline-none py-2 bg-transparent"
                             placeholder="Type a name..."
                         />
@@ -147,7 +161,10 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
                 </div>
 
                 <div className="flex justify-center">
-                    <XiaoQi emotion="smart" message="看！我根本没去碰右边的‘屏幕’，我只是改了左边的‘数据’。" />
+                    <XiaoQi 
+                        emotion={hasInteracted ? "smart" : "happy"} 
+                        message={hasInteracted ? "看！我根本没去碰右边的‘屏幕’，我只是改了左边的‘数据’。" : "试试修改左边的文本框，看看屏幕会发生什么？"} 
+                    />
                 </div>
             </div>
         );
@@ -310,7 +327,7 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
 
                 <div className="flex gap-4">
                      <button 
-                        onClick={() => setCurrentStageIndex(0)} 
+                        onClick={resetGame} 
                         className="px-8 py-3 bg-white border-2 border-cyan-200 text-cyan-600 rounded-full font-bold hover:bg-cyan-50 flex items-center gap-2"
                     >
                         <RefreshCw size={20} /> 重看一遍
@@ -337,13 +354,9 @@ export default function DataDrivenGame({ onExit }: DataDrivenGameProps) {
         title="Compose 放映室" 
         progress={currentStageIndex} 
         totalStages={STAGE_ORDER.length}
+        onExit={onExit}
     >
          <div className="min-h-[60vh] flex flex-col">
-             <div className="absolute top-4 right-4 z-50">
-                 <button onClick={onExit} className="p-2 text-slate-400 hover:bg-slate-200 rounded-full transition-colors" title="返回大厅">
-                     <Home size={24} />
-                 </button>
-             </div>
             {renderContent()}
          </div>
 
