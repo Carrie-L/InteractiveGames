@@ -1,0 +1,5 @@
+{
+  "name": "Xiao Qi's Layout Magic Academy",
+  "description": "An interactive game based on 'Xiao Qi's Layout Magic Book' to learn Flexbox/Compose layout concepts (MainAxis, CrossAxis, Alignment, Arrangement) through visual experiments and quizzes.",
+  "requestFramePermissions": []
+}
