@@ -1,9 +1,12 @@
+
 import React, { useState } from 'react';
 import LayoutMagicGame from './games/layout-magic/LayoutMagicGame';
 import ComposeIntroGame from './games/compose-intro/ComposeIntroGame';
-import XiaoQi from './games/layout-magic/components/XiaoQi'; // Reuse the original XiaoQi for the landing page
+import DataDrivenGame from './games/compose-data-driven/DataDrivenGame';
+import ColumnAdventureGame from './games/column-adventure/ColumnAdventureGame';
+import XiaoQi from './games/layout-magic/components/XiaoQi'; 
 import { GameId } from './types';
-import { LayoutTemplate, Wand2, GraduationCap, Sparkles } from 'lucide-react';
+import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers } from 'lucide-react';
 
 export default function App() {
   const [activeGame, setActiveGame] = useState<GameId>('HOME');
@@ -16,13 +19,21 @@ export default function App() {
     return <ComposeIntroGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  if (activeGame === 'DATA_DRIVEN') {
+    return <DataDrivenGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  if (activeGame === 'COLUMN_ADVENTURE') {
+    return <ColumnAdventureGame onExit={() => setActiveGame('HOME')} />;
+  }
+
   return (
     <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 sm:p-8 font-sans">
        {/* Background Decor */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
       <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
       
-      <div className="relative z-10 text-center max-w-4xl w-full">
+      <div className="relative z-10 text-center max-w-6xl w-full">
          <div className="mb-12 animate-fade-in-down">
             <h1 className="text-5xl sm:text-6xl font-bold text-amber-800 mb-4 tracking-tight">
               小奇的 UI 魔法学院
@@ -32,45 +43,85 @@ export default function App() {
             </p>
          </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mx-auto">
             
-            {/* Game Card 1: Intro */}
+            {/* Game Card 1: Intro (1.1.1) */}
             <button 
                 onClick={() => setActiveGame('COMPOSE_INTRO')}
-                className="group relative bg-white rounded-[2.5rem] p-8 shadow-xl border-4 border-white hover:border-purple-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-purple-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-100 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150 z-0"></div>
-                <div className="relative z-10">
-                    <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6 shadow-sm group-hover:rotate-12 transition-transform">
-                        <Wand2 size={32} />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <Wand2 size={24} />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-purple-700 transition-colors">Compose 魔法入门</h3>
-                    <p className="text-gray-500 leading-relaxed mb-4">
-                        了解 "声明式UI" 与传统方式的区别，学习如何施展 @Composable 咒语。
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-purple-700 transition-colors">1.1.1 魔法入门</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        声明式 vs 命令式，施展 @Composable 咒语。
                     </p>
-                    <div className="flex items-center text-purple-600 font-bold text-sm uppercase tracking-wider">
-                        <Sparkles size={16} className="mr-2" /> 基础篇
-                    </div>
+                </div>
+                <div className="relative z-10 flex items-center text-purple-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <Sparkles size={12} className="mr-1" /> 基础概念
                 </div>
             </button>
 
-            {/* Game Card 2: Layouts */}
+            {/* Game Card 2: Data Driven (1.1.2) */}
+            <button 
+                onClick={() => setActiveGame('DATA_DRIVEN')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-cyan-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <Film size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-cyan-700 transition-colors">1.1.2 数据驱动</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        化身 UI 放映师，理解 UI = f(State)。
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-cyan-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <Sparkles size={12} className="mr-1" /> 核心思想
+                </div>
+            </button>
+
+            {/* Game Card 3: Column Adventure (New) */}
+            <button 
+                onClick={() => setActiveGame('COLUMN_ADVENTURE')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-green-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-green-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <Layers size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-green-700 transition-colors">Column 冒险</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        垂直排列的秘密，解决堆叠危机！
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-green-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 布局基础
+                </div>
+            </button>
+
+            {/* Game Card 4: Layout Magic */}
             <button 
                 onClick={() => setActiveGame('LAYOUT_MAGIC')}
-                className="group relative bg-white rounded-[2.5rem] p-8 shadow-xl border-4 border-white hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150 z-0"></div>
-                <div className="relative z-10">
-                     <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6 shadow-sm group-hover:rotate-12 transition-transform">
-                        <LayoutTemplate size={32} />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                     <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <LayoutTemplate size={24} />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors">布局魔法书</h3>
-                    <p className="text-gray-500 leading-relaxed mb-4">
-                        解开 Row 和 Column 的秘密，掌握主轴与交叉轴的终极控制权。
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-blue-700 transition-colors">布局魔法书</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        Row & Column 实战，掌握主轴与交叉轴。
                     </p>
-                    <div className="flex items-center text-blue-600 font-bold text-sm uppercase tracking-wider">
-                        <GraduationCap size={16} className="mr-2" /> 进阶篇
-                    </div>
+                </div>
+                <div className="relative z-10 flex items-center text-blue-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 进阶实战
                 </div>
             </button>
 
