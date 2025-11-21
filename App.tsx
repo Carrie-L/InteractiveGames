@@ -4,7 +4,7 @@ import XiaoQi from './components/XiaoQi';
 import LayoutPreview from './components/LayoutPreview';
 import { ControlGroup } from './components/Controls';
 import { GameStage, LayoutDirection, MainAxisAlignment, CrossAxisAlignment } from './types';
-import { ArrowRight, ArrowLeft, RotateCcw, CheckCircle, Play, Trophy, Star } from 'lucide-react';
+import { ArrowRight, ArrowLeft, RotateCcw, CheckCircle, Play, Trophy, Star, Code } from 'lucide-react';
 
 const STAGE_ORDER: GameStage[] = [
   'INTRO',
@@ -16,6 +16,61 @@ const STAGE_ORDER: GameStage[] = [
   'FINAL_CHALLENGE',
   'VICTORY'
 ];
+
+// Helper to generate code snippet
+const CodeDisplay = ({ direction, mainAxis, crossAxis }: { direction: LayoutDirection, mainAxis: MainAxisAlignment, crossAxis: CrossAxisAlignment }) => {
+    
+    // Mappings
+    const mapMain = (val: MainAxisAlignment) => {
+        switch(val) {
+            case MainAxisAlignment.START: return 'Arrangement.Start';
+            case MainAxisAlignment.CENTER: return 'Arrangement.Center';
+            case MainAxisAlignment.END: return 'Arrangement.End';
+            case MainAxisAlignment.SPACE_BETWEEN: return 'Arrangement.SpaceBetween';
+            case MainAxisAlignment.SPACE_EVENLY: return 'Arrangement.SpaceEvenly';
+            case MainAxisAlignment.SPACE_AROUND: return 'Arrangement.SpaceAround';
+            default: return 'Arrangement.Start';
+        }
+    }
+
+    const mapCross = (val: CrossAxisAlignment, dir: LayoutDirection) => {
+        if (dir === LayoutDirection.ROW) {
+             switch(val) {
+                case CrossAxisAlignment.START: return 'Alignment.Top';
+                case CrossAxisAlignment.CENTER: return 'Alignment.CenterVertically';
+                case CrossAxisAlignment.END: return 'Alignment.Bottom';
+                default: return 'Alignment.Top';
+            }
+        } else {
+             switch(val) {
+                case CrossAxisAlignment.START: return 'Alignment.Start';
+                case CrossAxisAlignment.CENTER: return 'Alignment.CenterHorizontally';
+                case CrossAxisAlignment.END: return 'Alignment.End';
+                default: return 'Alignment.Start';
+            }
+        }
+    }
+
+    const mainProp = direction === LayoutDirection.ROW ? 'horizontalArrangement' : 'verticalArrangement';
+    const crossProp = direction === LayoutDirection.ROW ? 'verticalAlignment' : 'horizontalAlignment';
+
+    return (
+        <div className="bg-slate-900 rounded-xl p-4 mt-4 shadow-inner border border-slate-700 font-mono text-sm leading-loose overflow-x-auto w-full">
+             <div className="flex flex-col text-slate-300">
+                <div className="whitespace-nowrap">
+                    <span className="text-blue-400">{mainProp}</span> 
+                    <span className="text-slate-500"> = </span>
+                    <span className="text-yellow-300">{mapMain(mainAxis)}</span>,
+                </div>
+                <div className="whitespace-nowrap">
+                    <span className="text-pink-400">{crossProp}</span> 
+                    <span className="text-slate-500"> = </span>
+                    <span className="text-yellow-300">{mapCross(crossAxis, direction)}</span>
+                </div>
+             </div>
+        </div>
+    )
+}
 
 export default function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
@@ -45,6 +100,7 @@ export default function App() {
       if (STAGE_ORDER[currentStageIndex + 1] === 'ALIGNMENT') {
          setDirection(LayoutDirection.ROW);
          setMainAxis(MainAxisAlignment.SPACE_EVENLY);
+         setCrossAxis(CrossAxisAlignment.CENTER); // default to visually clear state
       }
     }
   };
@@ -71,7 +127,7 @@ export default function App() {
     if (currentStage === 'AXIS_BASICS') {
         setDirection(LayoutDirection.ROW);
         setMainAxis(MainAxisAlignment.START);
-        setCrossAxis(CrossAxisAlignment.START);
+        setCrossAxis(CrossAxisAlignment.CENTER);
     }
   }, [currentStage]);
 
@@ -79,7 +135,7 @@ export default function App() {
     switch (currentStage) {
       case 'INTRO':
         return (
-          <div className="flex flex-col items-center text-center space-y-8 animate-fade-in">
+          <div className="flex flex-col items-center text-center space-y-8 animate-fade-in py-8">
             <h2 className="text-4xl font-bold text-amber-800 mb-4">小奇的布局魔法书</h2>
             <p className="text-xl text-amber-700 max-w-lg leading-relaxed">
               欢迎来到魔法世界！我是小奇。<br/>
@@ -99,19 +155,26 @@ export default function App() {
       case 'AXIS_BASICS':
         return (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h2 className="text-2xl font-bold text-blue-800">第一章：流动的方向</h2>
-                <XiaoQi emotion="smart" message="试着切换容器的方向 (Row/Column)。注意看蓝色的箭头，那是‘主轴’——水流的方向！" />
+                <XiaoQi emotion="smart" message="试着切换容器的方向 (Row/Column)。注意蓝色箭头指向哪里，那里就是‘水流’的方向！" />
             </div>
             
-            <p className="text-gray-600">
-                在 Compose 和 Flexbox 魔法中，一切都是相对的。<br/>
-                <b>Row (行)</b> 是横着流动的，<b>Column (列)</b> 是竖着流动的。
-            </p>
+            <div className="flex gap-4 items-center text-sm text-gray-600 bg-white/50 p-3 rounded-lg border border-amber-100">
+                 <div className="flex items-center gap-2">
+                    <div className="w-8 h-1.5 bg-blue-400 rounded-full"></div>
+                    <span>蓝色实线 = 主轴 (Main Axis)</span>
+                 </div>
+                 <div className="w-px h-4 bg-gray-300"></div>
+                 <div className="flex items-center gap-2">
+                    <div className="w-8 h-0 border-t-2 border-pink-400 border-dashed"></div>
+                    <span>粉色虚线 = 交叉轴 (Cross Axis)</span>
+                 </div>
+            </div>
 
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                 <ControlGroup 
-                    title="选择容器 (Container Spell)"
+                    title="选择容器 (Container)"
                     colorTheme="blue"
                     value={direction}
                     onChange={(val) => setDirection(val)}
@@ -123,17 +186,11 @@ export default function App() {
                 
                 <LayoutPreview 
                     direction={direction}
-                    mainAxis={MainAxisAlignment.START} // Keep simple for now
+                    mainAxis={MainAxisAlignment.START} 
                     crossAxis={CrossAxisAlignment.CENTER}
                 />
-            </div>
-
-            <div className="bg-blue-50 p-4 rounded-xl border border-blue-200">
-                <h3 className="font-bold text-blue-800 mb-2">独家记忆咒语：</h3>
-                <ul className="list-disc list-inside text-blue-700 space-y-1">
-                    <li><b>Row</b> 的主轴是 <span className="bg-blue-200 px-1 rounded">横向 (X轴)</span></li>
-                    <li><b>Column</b> 的主轴是 <span className="bg-blue-200 px-1 rounded">纵向 (Y轴)</span></li>
-                </ul>
+                
+                <CodeDisplay direction={direction} mainAxis={MainAxisAlignment.START} crossAxis={CrossAxisAlignment.CENTER} />
             </div>
           </div>
         );
@@ -141,43 +198,44 @@ export default function App() {
       case 'ARRANGEMENT':
         return (
           <div className="space-y-6">
-             <div className="flex justify-between items-center">
+             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h2 className="text-2xl font-bold text-pink-800">第二章：安排的艺术 (Arrangement)</h2>
-                <XiaoQi emotion="happy" message="Arrangement 专门管‘主轴’。想象一下，你怎么安排这些星星月亮排队？" />
+                <XiaoQi emotion="happy" message="Arrangement 专门管‘主轴’。看，蓝色箭头（边缘）指向的方向，元素是怎么分布的？" />
             </div>
             
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                 <ControlGroup 
-                    title="容器方向"
-                    value={direction}
-                    onChange={setDirection}
-                    options={[
-                        { label: 'Row', value: LayoutDirection.ROW },
-                        { label: 'Column', value: LayoutDirection.COLUMN }
-                    ]}
-                />
-
-                <div className="h-px bg-gray-200 my-4"></div>
-
-                <ControlGroup 
-                    title={`主轴咒语: ${direction === 'row' ? 'Horizontal' : 'Vertical'}Arrangement`}
-                    colorTheme="pink"
-                    value={mainAxis}
-                    onChange={setMainAxis}
-                    options={[
-                        { label: 'Start (起点)', value: MainAxisAlignment.START },
-                        { label: 'Center (居中)', value: MainAxisAlignment.CENTER },
-                        { label: 'End (终点)', value: MainAxisAlignment.END },
-                        { label: 'SpaceBetween (两端分散)', value: MainAxisAlignment.SPACE_BETWEEN },
-                        { label: 'SpaceEvenly (均匀分散)', value: MainAxisAlignment.SPACE_EVENLY },
-                    ]}
-                />
+                <div className="flex flex-col sm:flex-row sm:gap-8">
+                    <ControlGroup 
+                        title="容器方向"
+                        value={direction}
+                        onChange={setDirection}
+                        options={[
+                            { label: 'Row', value: LayoutDirection.ROW },
+                            { label: 'Column', value: LayoutDirection.COLUMN }
+                        ]}
+                    />
+                    <ControlGroup 
+                        title="主轴分布 (Arrangement)"
+                        colorTheme="pink"
+                        value={mainAxis}
+                        onChange={setMainAxis}
+                        options={[
+                            { label: 'Start', value: MainAxisAlignment.START },
+                            { label: 'Center', value: MainAxisAlignment.CENTER },
+                            { label: 'End', value: MainAxisAlignment.END },
+                            { label: 'SpaceBetween', value: MainAxisAlignment.SPACE_BETWEEN },
+                            { label: 'SpaceEvenly', value: MainAxisAlignment.SPACE_EVENLY },
+                        ]}
+                    />
+                </div>
 
                 <LayoutPreview 
                     direction={direction}
                     mainAxis={mainAxis}
                     crossAxis={CrossAxisAlignment.CENTER}
                 />
+                
+                <CodeDisplay direction={direction} mainAxis={mainAxis} crossAxis={CrossAxisAlignment.CENTER} />
             </div>
           </div>
         );
@@ -185,44 +243,42 @@ export default function App() {
       case 'ALIGNMENT':
         return (
            <div className="space-y-6">
-             <div className="flex justify-between items-center">
+             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h2 className="text-2xl font-bold text-purple-800">第三章：对齐的奥义 (Alignment)</h2>
-                <XiaoQi emotion="confused" message="Alignment 管‘交叉轴’。如果主轴是横的，交叉轴就是竖的。试试看！" />
+                <XiaoQi emotion="confused" message="Alignment 管‘交叉轴’。就是和蓝色主轴垂直的那个方向！" />
             </div>
             
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                 <ControlGroup 
-                    title="容器方向"
-                    value={direction}
-                    onChange={setDirection}
-                    options={[
-                        { label: 'Row', value: LayoutDirection.ROW },
-                        { label: 'Column', value: LayoutDirection.COLUMN }
-                    ]}
-                />
-
-                <div className="h-px bg-gray-200 my-4"></div>
-
-                <ControlGroup 
-                    title={`交叉轴咒语: ${direction === 'row' ? 'Vertical' : 'Horizontal'}Alignment`}
-                    colorTheme="amber"
-                    value={crossAxis}
-                    onChange={setCrossAxis}
-                    options={[
-                        { label: 'Start/Top', value: CrossAxisAlignment.START },
-                        { label: 'Center', value: CrossAxisAlignment.CENTER },
-                        { label: 'End/Bottom', value: CrossAxisAlignment.END },
-                    ]}
-                />
+                <div className="flex flex-col sm:flex-row sm:gap-8">
+                    <ControlGroup 
+                        title="容器方向"
+                        value={direction}
+                        onChange={setDirection}
+                        options={[
+                            { label: 'Row', value: LayoutDirection.ROW },
+                            { label: 'Column', value: LayoutDirection.COLUMN }
+                        ]}
+                    />
+                    <ControlGroup 
+                        title="交叉轴对齐 (Alignment)"
+                        colorTheme="amber"
+                        value={crossAxis}
+                        onChange={setCrossAxis}
+                        options={[
+                            { label: 'Start/Top', value: CrossAxisAlignment.START },
+                            { label: 'Center', value: CrossAxisAlignment.CENTER },
+                            { label: 'End/Bottom', value: CrossAxisAlignment.END },
+                        ]}
+                    />
+                </div>
 
                 <LayoutPreview 
                     direction={direction}
-                    mainAxis={MainAxisAlignment.SPACE_BETWEEN} // Spread out to see alignment better
+                    mainAxis={MainAxisAlignment.SPACE_BETWEEN} 
                     crossAxis={crossAxis}
                 />
-            </div>
-            <div className="bg-yellow-50 p-4 rounded-xl border border-yellow-200 text-amber-800">
-                <p><b>记住：</b> 它是和主轴 <span className="font-bold">十字交叉</span> 的那条线。</p>
+                
+                <CodeDisplay direction={direction} mainAxis={MainAxisAlignment.SPACE_BETWEEN} crossAxis={crossAxis} />
             </div>
           </div>
         );
@@ -240,10 +296,10 @@ export default function App() {
 
                 <div className="space-y-3">
                     {[
-                        { id: 'A', text: 'verticalArrangement = Center' },
-                        { id: 'B', text: 'horizontalArrangement = Center' },
-                        { id: 'C', text: 'horizontalAlignment = CenterHorizontally' },
-                        { id: 'D', text: 'verticalAlignment = CenterVertically' }
+                        { id: 'A', text: 'verticalArrangement = Arrangement.Center' },
+                        { id: 'B', text: 'horizontalArrangement = Arrangement.Center' },
+                        { id: 'C', text: 'horizontalAlignment = Alignment.CenterHorizontally' },
+                        { id: 'D', text: 'verticalAlignment = Alignment.CenterVertically' }
                     ].map((option) => (
                         <button
                             key={option.id}
@@ -263,7 +319,7 @@ export default function App() {
                                 : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                             }`}
                         >
-                            <span className="font-bold mr-2">{option.id}.</span> {option.text}
+                            <span className="font-bold mr-2">{option.id}.</span> <span className="font-mono text-sm">{option.text}</span>
                         </button>
                     ))}
                 </div>
@@ -290,7 +346,7 @@ export default function App() {
                 </p>
 
                 <div className="flex gap-4 justify-center my-8">
-                    <div className="border-2 border-dashed border-gray-300 p-2 rounded-lg flex gap-8 items-center w-full justify-between opacity-50">
+                    <div className="border-2 border-dashed border-gray-300 p-2 rounded-lg flex gap-8 items-center w-full justify-between opacity-50 bg-gray-50">
                         <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
                         <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
                         <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
@@ -339,32 +395,32 @@ export default function App() {
         const isCodeCorrect = challengeCode === 'center';
         return (
             <div className="space-y-6">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <h2 className="text-2xl font-bold text-red-800">最终挑战：修复歪歪扭扭的布局</h2>
                     <XiaoQi emotion={isCodeCorrect ? 'excited' : 'confused'} message="看右边的手机！文字都挤在左边，太难看了。帮我把它居中！" />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* Code Editor Side */}
-                    <div className="bg-slate-800 p-6 rounded-3xl shadow-xl font-mono text-sm sm:text-base text-slate-300 overflow-hidden relative">
+                    <div className="bg-slate-800 p-6 rounded-3xl shadow-xl font-mono text-sm sm:text-base text-slate-300 overflow-hidden relative flex flex-col">
                         <div className="absolute top-0 left-0 w-full h-6 bg-slate-900 flex items-center px-4 gap-2">
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
                             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                             <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
-                        <div className="mt-4 space-y-1">
+                        <div className="mt-4 space-y-1 flex-1">
                             <p><span className="text-purple-400">@Composable</span></p>
                             <p><span className="text-blue-400">fun</span> <span className="text-yellow-300">AlignmentTest</span>() {'{'}</p>
                             <p className="pl-4"><span className="text-yellow-300">Column</span>(</p>
                             <p className="pl-8">modifier = Modifier.fillMaxWidth(),</p>
                             <p className="pl-8 text-gray-500">// 关键任务：设置交叉轴（水平方向）居中</p>
                             
-                            <div className="pl-8 my-2">
+                            <div className="pl-8 my-2 flex flex-wrap items-center gap-2">
                                 <span className="text-cyan-300">horizontalAlignment</span> = 
                                 <select 
                                     value={challengeCode}
                                     onChange={(e) => setChallengeCode(e.target.value)}
-                                    className="ml-2 bg-slate-700 border border-slate-600 rounded px-2 py-1 text-white focus:outline-none focus:border-blue-500 cursor-pointer"
+                                    className="bg-slate-700 border border-slate-600 rounded px-2 py-1 text-white focus:outline-none focus:border-blue-500 cursor-pointer"
                                 >
                                     <option value="start">Alignment.Start</option>
                                     <option value="center">Alignment.CenterHorizontally</option>
@@ -390,9 +446,9 @@ export default function App() {
                             <div className={`w-full h-full pt-12 px-4 flex flex-col gap-4 transition-all duration-500 ${
                                 challengeCode === 'center' ? 'items-center' : (challengeCode === 'end' ? 'items-end' : 'items-start')
                             }`}>
-                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm animate-pulse">第一行：短</div>
-                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm">第二行：稍微长一点</div>
-                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm">第三行：超级超级长长长</div>
+                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm w-fit">第一行：短</div>
+                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm w-fit">第二行：稍微长一点</div>
+                                <div className="bg-gray-100 px-4 py-2 rounded-lg shadow-sm w-fit">第三行：超级超级长长长</div>
 
                                 {isCodeCorrect && (
                                     <div className="mt-10 flex flex-col items-center animate-bounce">
@@ -409,7 +465,7 @@ export default function App() {
 
       case 'VICTORY':
         return (
-            <div className="flex flex-col items-center text-center space-y-8 animate-scale-in">
+            <div className="flex flex-col items-center text-center space-y-8 animate-scale-in py-10">
                 <div className="relative">
                     <Trophy className="w-32 h-32 text-yellow-400 drop-shadow-lg" />
                     <div className="absolute -top-2 -right-2 animate-spin-slow">
@@ -452,7 +508,7 @@ export default function App() {
          {renderContent()}
       </div>
 
-      {/* Navigation Footer (Hidden on Intro/Victory or conditionally shown) */}
+      {/* Navigation Footer */}
       {currentStage !== 'INTRO' && currentStage !== 'VICTORY' && (
         <div className="flex justify-between items-center mt-10 pt-6 border-t border-amber-100">
             <button 
