@@ -1,5 +1,5 @@
 
-export type GameId = 'HOME' | 'LAYOUT_MAGIC' | 'COMPOSE_INTRO' | 'DATA_DRIVEN' | 'COLUMN_ADVENTURE';
+export type GameId = 'HOME' | 'LAYOUT_MAGIC' | 'COMPOSE_INTRO' | 'DATA_DRIVEN' | 'COLUMN_ADVENTURE' | 'ROW_ADVENTURE';
 
 export enum LayoutDirection {
   ROW = 'row',

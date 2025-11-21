@@ -4,9 +4,10 @@ import LayoutMagicGame from './games/layout-magic/LayoutMagicGame';
 import ComposeIntroGame from './games/compose-intro/ComposeIntroGame';
 import DataDrivenGame from './games/compose-data-driven/DataDrivenGame';
 import ColumnAdventureGame from './games/column-adventure/ColumnAdventureGame';
+import RowAdventureGame from './games/row-adventure/RowAdventureGame';
 import XiaoQi from './games/layout-magic/components/XiaoQi'; 
 import { GameId } from './types';
-import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers } from 'lucide-react';
+import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround } from 'lucide-react';
 
 export default function App() {
   const [activeGame, setActiveGame] = useState<GameId>('HOME');
@@ -25,6 +26,10 @@ export default function App() {
 
   if (activeGame === 'COLUMN_ADVENTURE') {
     return <ColumnAdventureGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  if (activeGame === 'ROW_ADVENTURE') {
+    return <RowAdventureGame onExit={() => setActiveGame('HOME')} />;
   }
 
   return (
@@ -85,7 +90,7 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 3: Column Adventure (New) */}
+            {/* Game Card 3: Column Adventure (1.2.1) */}
             <button 
                 onClick={() => setActiveGame('COLUMN_ADVENTURE')}
                 className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-green-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
@@ -95,7 +100,7 @@ export default function App() {
                     <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Layers size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-green-700 transition-colors">Column 冒险</h3>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-green-700 transition-colors">1.2.1 Column 冒险</h3>
                     <p className="text-gray-500 text-xs leading-relaxed mb-4">
                         垂直排列的秘密，解决堆叠危机！
                     </p>
@@ -105,7 +110,27 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 4: Layout Magic - UPDATED TO AMBER */}
+            {/* Game Card 4: Row Adventure (1.2.2) - NEW */}
+             <button 
+                onClick={() => setActiveGame('ROW_ADVENTURE')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-orange-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <AlignHorizontalSpaceAround size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-orange-700 transition-colors">1.2.2 Row 露营</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        水平排队的魔法，领小鱼干啦！
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-orange-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 布局基础
+                </div>
+            </button>
+
+            {/* Game Card 5: Layout Magic (Adv) */}
             <button 
                 onClick={() => setActiveGame('LAYOUT_MAGIC')}
                 className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
