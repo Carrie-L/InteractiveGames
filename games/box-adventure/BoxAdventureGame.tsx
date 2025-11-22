@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import BoxFrame from './components/BoxFrame';
 import XiaoQi from './components/XiaoQi';
 import { BoxStage } from './types';
-import { ArrowRight, ArrowLeft, Play, RefreshCw, CheckCircle, Home, Layers, Box, User, Bell, Lock, Sparkles, Zap, LayoutTemplate, Square } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Play, RefreshCw, CheckCircle, Home, Layers, Box, User, Bell, Lock, Sparkles, Zap, LayoutTemplate, Square, AlertTriangle } from 'lucide-react';
 
 const STAGE_ORDER: BoxStage[] = [
   'INTRO',
@@ -354,9 +354,17 @@ export default function BoxAdventureGame({ onExit }: BoxAdventureGameProps) {
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-green-50 text-green-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> Box 会自动适应子元素中 <b>最大</b> 的宽度和高度，以确保能包容所有内容。宽取 150，高取 100。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'A', feedback: "不对哦。高度只有40的话，图片(100)就放不下了。Box 会尽可能包容所有孩子。" },
+                             { id: 'B', feedback: "正确！Box 会自动适应子元素中最大的宽度和最大的高度，以确保能包容所有内容。宽取 150，高取 100。" },
+                             { id: 'C', feedback: "不对哦。宽度只有80的话，文本(150)就溢出了。" },
+                             { id: 'D', feedback: "Box 不是 Column/Row，它不会把尺寸加起来。它是堆叠的，所以只取最大值。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>
@@ -397,9 +405,17 @@ export default function BoxAdventureGame({ onExit }: BoxAdventureGameProps) {
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-green-50 text-green-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> 这个比喻很精准。代码执行顺序是“绘制顺序”：先画背景（底层），再画前景（顶层）。后画的会覆盖先画的。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                         <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'A', feedback: "恰恰相反。在绘制中，先写的代码会先被画在画布上（作为背景），后写的会画在它上面。" },
+                             { id: 'B', feedback: "精准的比喻！代码执行顺序就是“绘制顺序”。后声明的元素（列表下方）会被绘制在顶层，覆盖先声明的元素。" },
+                             { id: 'C', feedback: "Box 的特性就是重叠，而不是并列。" },
+                             { id: 'D', feedback: "Z轴上没有“先看到”的概念，只有“谁盖住谁”。后写的会盖住先写的。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>
@@ -439,9 +455,17 @@ export default function BoxAdventureGame({ onExit }: BoxAdventureGameProps) {
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-green-50 text-green-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> 只有 Box 提供了 Z 轴堆叠能力。背景图、角标、悬浮按钮、加载 Loading 遮罩等重叠式设计，都是 Box 的主场。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'A', feedback: "这是 Row 和 Column 的强项。" },
+                             { id: 'B', feedback: "虽然 Box 性能不错，但这并不是选择它的核心理由。" },
+                             { id: 'C', feedback: "正确！只有 Box 提供了 Z 轴堆叠能力。背景图、角标、悬浮按钮、Loading 遮罩等重叠式设计，都是 Box 的主场。" },
+                             { id: 'D', feedback: "这是 BoxWithConstraints 的任务。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>
@@ -488,9 +512,17 @@ export default function BoxAdventureGame({ onExit }: BoxAdventureGameProps) {
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-green-50 text-green-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> Box 很“懒”，如果不指定位置，它会把所有孩子都扔到坐标原点 (0,0)，也就是左上角。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'A', feedback: "Box 不会并排排列，那是 Row 的工作。" },
+                             { id: 'B', feedback: "正确！Box 很“懒”，如果不指定位置，它会把所有孩子都扔到坐标原点 (0,0)，也就是左上角。" },
+                             { id: 'C', feedback: "Box 不会自动居中，除非你设置 contentAlignment = Alignment.Center。" },
+                             { id: 'D', feedback: "在 Compose 中，所有子元素都是平等的兄弟关系，都在同一个 Box 容器内，并没有谁包含谁的说法。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>

@@ -409,8 +409,8 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
 
                 {quizSelection && (
                     <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
-                        {quizCorrect ? <CheckCircle className="shrink-0"/> : <AlertTriangle className="shrink-0"/>}
-                        <p className="text-sm">
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
                             {quizCorrect 
                                 ? "正解！SpaceAround 会在两头留出一半的间距，视觉上更透气，是导航栏的经典做法。"
                                 : "不太好哦。SpaceBetween 会让图标贴在屏幕边缘，容易误触；Center 会挤在中间，两边太空。"}
@@ -462,8 +462,8 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
 
                 {quizSelection && (
                     <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
-                        {quizCorrect ? <CheckCircle className="shrink-0"/> : <AlertTriangle className="shrink-0"/>}
-                        <p className="text-sm">
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
                            {[
                              { id: 'A', feedback: "屏幕通常是不会坏的！相信你自己。" },
                              { id: 'B', feedback: "正解！如果容器紧包内容，就没有多余空间可以用来分配，Arrangement 自然就失效了。" },
@@ -560,9 +560,17 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-emerald-50 text-emerald-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> “向左右散开，占满整条路，且两头不留空”，这就是 SpaceBetween 的特征。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'Start', feedback: "Start 会把所有元素都挤在起点（左边），右边会留出大片空白。" },
+                             { id: 'SpaceBetween', feedback: "正确！SpaceBetween 确保第一个和最后一个元素紧贴边缘，中间平分。" },
+                             { id: 'SpaceAround', feedback: "SpaceAround 会在两头留出空隙，不符合“紧贴边缘”的要求。" },
+                             { id: 'Center', feedback: "Center 会把所有元素挤在中间，两头都会留白。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>
@@ -616,9 +624,17 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
                          </button>
                      ))}
                 </div>
-                 {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-emerald-50 text-emerald-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> 每个元素自带一圈“保护罩”。中间相遇时，两个保护罩叠加，所以间距是两倍。
+                 {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'A', feedback: "正确！每个元素自带一圈“保护罩”。中间相遇时，两个保护罩叠加，所以间距是两倍。" },
+                             { id: 'B', feedback: "边缘没有间距是 SpaceBetween 的特征。" },
+                             { id: 'C', feedback: "不对哦，应该是中间比两头大。" },
+                             { id: 'D', feedback: "两者相等是 SpaceEvenly 的特征。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>
@@ -661,9 +677,17 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
                          </button>
                      ))}
                 </div>
-                {quizSelection && quizCorrect && (
-                    <div className="p-4 bg-emerald-50 text-emerald-800 rounded-xl text-sm animate-fade-in">
-                        <span className="font-bold">正确！</span> SpaceEvenly 将所有可用空间分成 N+1 份（N是元素数量），确保所有间隙（包括边缘）都严格相等。
+                {quizSelection && (
+                    <div className={`p-4 rounded-xl flex gap-3 items-start animate-fade-in ${quizCorrect ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}`}>
+                        {quizCorrect ? <CheckCircle size={20} className="shrink-0 mt-0.5"/> : <AlertTriangle size={20} className="shrink-0 mt-0.5"/>}
+                        <p className="text-sm leading-relaxed">
+                           {[
+                             { id: 'SpaceEvenly', feedback: "正确！SpaceEvenly 将所有可用空间分成 N+1 份（N是元素数量），确保所有间隙（包括边缘）都严格相等。" },
+                             { id: 'Center', feedback: "Center 只是把元素居中，元素之间没有间距拉伸。" },
+                             { id: 'SpaceBetween', feedback: "SpaceBetween 两头没有间距。" },
+                             { id: 'SpaceAround', feedback: "SpaceAround 中间间距是两头的两倍，不相等。" }
+                           ].find(o => o.id === quizSelection)?.feedback}
+                        </p>
                     </div>
                 )}
             </div>

@@ -51,7 +51,7 @@ export default function App() {
       <div className="relative z-10 text-center max-w-6xl w-full">
          <div className="mb-12 animate-fade-in-down">
             <h1 className="text-5xl sm:text-6xl font-bold text-amber-800 mb-4 tracking-tight">
-              小奇的 UI 魔法学院
+              起司猫的 UI 魔法学院
             </h1>
             <p className="text-xl text-amber-700 max-w-xl mx-auto">
               跟随小奇猫咪，通过交互式游戏轻松掌握 Jetpack Compose 的核心奥义！
