@@ -74,7 +74,8 @@ export default function GuildHall({ onExit }: GuildHallProps) {
         {/* Cyber Magic Background */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#0F172A] via-[#1E293B] to-[#0F172A]"></div>
+            {/* Gradient changed to end in purple #271742, confined to bottom 15% */}
+            <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,#0F172A_0%,#1E293B_85%,#271742_100%)]"></div>
             
             {/* Glowing Orbs */}
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse"></div>
