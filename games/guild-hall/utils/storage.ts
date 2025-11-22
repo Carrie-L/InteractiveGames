@@ -1,20 +1,27 @@
 
 import { UserProgress } from '../types';
+import { QUESTS } from '../data/quests';
 
-const STORAGE_KEY = 'guild_progress_v1';
+const STORAGE_KEY = 'guild_progress_v2'; // Version bump for schema change
 
 const INITIAL_PROGRESS: UserProgress = {
   level: 1,
   currentXp: 0,
-  acceptedQuests: [],
-  completedQuests: []
+  activeQuests: [],
+  completedQuests: [],
+  failedQuests: []
 };
 
 export const getProgress = (): UserProgress => {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
     try {
-      return JSON.parse(saved);
+      const progress = JSON.parse(saved);
+      
+      // Basic schema check/migration (simple check if activeQuests is array)
+      if (Array.isArray(progress.activeQuests)) {
+          return progress;
+      }
     } catch (e) {
       console.error("Failed to parse guild progress", e);
     }
@@ -28,27 +35,86 @@ export const saveProgress = (progress: UserProgress) => {
 
 export const acceptQuest = (questId: string) => {
   const progress = getProgress();
-  if (!progress.acceptedQuests.includes(questId) && !progress.completedQuests.includes(questId)) {
-    progress.acceptedQuests.push(questId);
-    saveProgress(progress);
+  
+  // Check if already active or completed
+  const isActive = progress.activeQuests.some(q => q.questId === questId);
+  const isCompleted = progress.completedQuests.some(q => q.questId === questId);
+  
+  // Remove from failed list if retrying
+  if (progress.failedQuests.includes(questId)) {
+      progress.failedQuests = progress.failedQuests.filter(id => id !== questId);
+  }
+
+  if (!isActive && !isCompleted) {
+    const quest = QUESTS.find(q => q.id === questId);
+    if (quest) {
+        const now = Date.now();
+        const durationMs = quest.countdown * 60 * 60 * 1000;
+        
+        progress.activeQuests.push({
+            questId: questId,
+            startTime: now,
+            endTime: now + durationMs
+        });
+        saveProgress(progress);
+    }
   }
   return progress;
 };
 
 export const completeQuest = (questId: string, xpGain: number) => {
   const progress = getProgress();
-  if (!progress.completedQuests.includes(questId)) {
-    progress.completedQuests.push(questId);
-    progress.acceptedQuests = progress.acceptedQuests.filter(id => id !== questId);
-    progress.currentXp += xpGain;
+  const activeQuestIndex = progress.activeQuests.findIndex(q => q.questId === questId);
+  
+  if (activeQuestIndex !== -1) {
+    // Check if failed time
+    const activeQuest = progress.activeQuests[activeQuestIndex];
+    const now = Date.now();
     
-    // Simple leveling logic: Level = 1 + floor(XP / 1000)
-    // Or distinct thresholds. Let's stick to simple thresholds for now.
-    // Rank F(50)+E(80)+D(150) = 280.
-    // Let's say every 500 XP is a level.
-    progress.level = 1 + Math.floor(progress.currentXp / 500);
+    if (now > activeQuest.endTime) {
+        // Failed!
+        progress.activeQuests.splice(activeQuestIndex, 1);
+        if (!progress.failedQuests.includes(questId)) {
+            progress.failedQuests.push(questId);
+        }
+        // No XP gain
+    } else {
+        // Success
+        progress.activeQuests.splice(activeQuestIndex, 1);
+        progress.completedQuests.push({
+            questId: questId,
+            finishTime: now
+        });
+        progress.currentXp += xpGain;
+        // Simple leveling: every 500 XP is a level
+        progress.level = 1 + Math.floor(progress.currentXp / 500);
+    }
     
     saveProgress(progress);
   }
   return progress;
+};
+
+// Helper to check for expired quests without user action
+export const checkExpiredQuests = () => {
+    const progress = getProgress();
+    const now = Date.now();
+    let changed = false;
+
+    const newActiveQuests = [];
+    for (const aq of progress.activeQuests) {
+        if (now > aq.endTime) {
+            // Expired
+            progress.failedQuests.push(aq.questId);
+            changed = true;
+        } else {
+            newActiveQuests.push(aq);
+        }
+    }
+
+    if (changed) {
+        progress.activeQuests = newActiveQuests;
+        saveProgress(progress);
+    }
+    return progress;
 };

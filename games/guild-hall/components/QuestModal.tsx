@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Quest } from '../types';
-import { X, ExternalLink, Sparkles, Loader2, GitBranch, Star, Flower2, Leaf } from 'lucide-react';
+import { X, ExternalLink, Sparkles, Loader2, GitBranch, Star, Flower2, Leaf, Hourglass, RotateCcw } from 'lucide-react';
 import { verifySubmission } from '../utils/magister';
 
 interface QuestModalProps {
   quest: Quest;
-  status: 'available' | 'accepted' | 'completed';
+  status: 'available' | 'active' | 'completed' | 'failed';
   onClose: () => void;
   onAccept: () => void;
   onComplete: () => void;
@@ -16,6 +16,29 @@ const QuestModal: React.FC<QuestModalProps> = ({ quest, status, onClose, onAccep
   const [repoLink, setRepoLink] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState<string>("");
+
+  // Live Timer
+  useEffect(() => {
+      if (status === 'active' && quest.endTime) {
+          const updateTimer = () => {
+              const now = Date.now();
+              const diff = quest.endTime! - now;
+              if (diff > 0) {
+                  const hrs = Math.floor(diff / (1000 * 60 * 60));
+                  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                  setTimeLeft(`${hrs}h ${mins}m ${secs}s`);
+              } else {
+                  setTimeLeft("Time Expired");
+                  // Trigger refresh? Handled by parent generally, but could force check here.
+              }
+          };
+          updateTimer();
+          const interval = setInterval(updateTimer, 1000);
+          return () => clearInterval(interval);
+      }
+  }, [status, quest.endTime]);
 
   const handleSubmit = async () => {
     if (!repoLink) return;
@@ -67,16 +90,28 @@ const QuestModal: React.FC<QuestModalProps> = ({ quest, status, onClose, onAccep
              
              <div className="space-y-8 px-2">
                  
-                 {/* Stats Row - Rounded Capsules */}
+                 {/* Stats Row */}
                  <div className="flex items-center justify-center gap-4 pb-6 border-b border-[#f0d1f5]/10">
-                     <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[100px]">
+                     <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[90px]">
                          <div className="text-[9px] text-[#f0d1f5]/70 uppercase font-bold tracking-widest">Rank</div>
                          <div className="font-serif font-bold text-xl text-white">{quest.rank}</div>
                      </div>
-                     <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[100px]">
+                     <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[90px]">
                          <div className="text-[9px] text-[#f0d1f5]/70 uppercase font-bold tracking-widest">XP</div>
                          <div className="font-mono font-bold text-xl text-cyan-300">{quest.xp}</div>
                      </div>
+                     {status === 'available' && (
+                        <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[90px]">
+                            <div className="text-[9px] text-[#f0d1f5]/70 uppercase font-bold tracking-widest">Time</div>
+                            <div className="font-mono font-bold text-xl text-white">{quest.countdown}h</div>
+                        </div>
+                     )}
+                     {status === 'active' && (
+                        <div className="bg-[#0b1021] border border-[#f0d1f5]/20 px-6 py-2 rounded-full text-center min-w-[120px]">
+                            <div className="text-[9px] text-[#f0d1f5]/70 uppercase font-bold tracking-widest">Time Left</div>
+                            <div className="font-mono font-bold text-lg text-cyan-300 animate-pulse">{timeLeft}</div>
+                        </div>
+                     )}
                  </div>
 
                  {/* Description */}
@@ -122,15 +157,21 @@ const QuestModal: React.FC<QuestModalProps> = ({ quest, status, onClose, onAccep
                  {/* Action Area */}
                  <div className="pt-4">
                      {status === 'available' && (
-                         <button 
-                            onClick={onAccept}
-                            className="w-full py-4 bg-[#f0d1f5] hover:bg-white text-[#0b1021] font-bold text-sm shadow-[0_0_20px_rgba(240,209,245,0.3)] transition-all flex items-center justify-center gap-3 uppercase tracking-[0.2em] rounded-full hover:scale-105 transform"
-                         >
-                             <Sparkles size={16} /> Accept Quest
-                         </button>
+                         <div className="space-y-3">
+                             <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+                                 <Hourglass size={12} /> 
+                                 <span>Warning: You have {quest.countdown} hours to complete this quest once accepted.</span>
+                             </div>
+                             <button 
+                                onClick={onAccept}
+                                className="w-full py-4 bg-[#f0d1f5] hover:bg-white text-[#0b1021] font-bold text-sm shadow-[0_0_20px_rgba(240,209,245,0.3)] transition-all flex items-center justify-center gap-3 uppercase tracking-[0.2em] rounded-full hover:scale-105 transform"
+                             >
+                                 <Sparkles size={16} /> Accept Quest
+                             </button>
+                         </div>
                      )}
 
-                     {status === 'accepted' && !verificationResult && (
+                     {status === 'active' && !verificationResult && (
                          <div className="space-y-6 animate-fade-in">
                              <div className="flex flex-col gap-2">
                                 <label className="text-[10px] font-bold text-[#f0d1f5]/70 uppercase tracking-wider flex items-center gap-2 ml-2">
@@ -158,6 +199,21 @@ const QuestModal: React.FC<QuestModalProps> = ({ quest, status, onClose, onAccep
                          <div className="text-center p-5 border border-[#f0d1f5]/30 bg-[#f0d1f5]/10 text-[#f0d1f5] font-bold flex flex-col items-center gap-2 uppercase tracking-widest text-sm rounded-3xl">
                              <Sparkles size={20} />
                              Quest Completed
+                         </div>
+                     )}
+
+                     {status === 'failed' && (
+                         <div className="space-y-4">
+                             <div className="text-center p-5 border border-red-800/50 bg-red-900/20 text-red-400 font-bold flex flex-col items-center gap-2 uppercase tracking-widest text-sm rounded-3xl">
+                                 <Hourglass size={20} />
+                                 Quest Failed (Time Expired)
+                             </div>
+                             <button 
+                                onClick={onAccept} // Logic to re-accept is handled in storage
+                                className="w-full py-3 bg-transparent border border-slate-600 text-slate-400 hover:text-white hover:border-white font-bold text-xs transition-all flex items-center justify-center gap-2 uppercase tracking-[0.1em] rounded-full"
+                             >
+                                 <RotateCcw size={14} /> Retry Quest
+                             </button>
                          </div>
                      )}
 

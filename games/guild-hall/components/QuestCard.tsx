@@ -1,11 +1,11 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Quest, QuestRank } from '../types';
-import { Check, Moon, Sun, Sparkles, Eye, Star, Flower2 } from 'lucide-react';
+import { Check, Moon, Sun, Sparkles, Eye, Star, Flower2, Hourglass, XCircle, Loader2 } from 'lucide-react';
 
 interface QuestCardProps {
   quest: Quest;
-  status: 'available' | 'accepted' | 'completed';
+  status: 'available' | 'active' | 'completed' | 'failed';
   onClick: () => void;
 }
 
@@ -24,6 +24,26 @@ const RANK_STYLES: Record<QuestRank, { color: string, icon: React.ReactNode }> =
 
 const QuestCard: React.FC<QuestCardProps> = ({ quest, status, onClick }) => {
   const { color, icon } = RANK_STYLES[quest.rank];
+  const [timeLeft, setTimeLeft] = useState<string>("");
+
+  useEffect(() => {
+      if (status === 'active' && quest.endTime) {
+          const updateTimer = () => {
+              const now = Date.now();
+              const diff = quest.endTime! - now;
+              if (diff > 0) {
+                  const hrs = Math.floor(diff / (1000 * 60 * 60));
+                  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                  setTimeLeft(`${hrs}h ${mins}m`);
+              } else {
+                  setTimeLeft("Expired");
+              }
+          };
+          updateTimer();
+          const interval = setInterval(updateTimer, 60000);
+          return () => clearInterval(interval);
+      }
+  }, [status, quest.endTime]);
 
   return (
     <div 
@@ -31,7 +51,9 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, status, onClick }) => {
       className="relative group cursor-pointer perspective-1000"
     >
       {/* Card Container - Very Rounded, Floral Pink Border */}
-      <div className="w-full aspect-[3/5] bg-[#13192b] relative flex flex-col border-[1.5px] border-[#f0d1f5]/30 group-hover:border-[#f0d1f5] group-hover:shadow-[0_0_30px_rgba(240,209,245,0.2)] group-hover:-translate-y-2 transition-all duration-500 ease-out overflow-hidden rounded-[2.5rem]">
+      <div className={`w-full aspect-[3/5] bg-[#13192b] relative flex flex-col border-[1.5px] transition-all duration-500 ease-out overflow-hidden rounded-[2.5rem]
+        ${status === 'failed' ? 'border-red-800/50 grayscale' : 'border-[#f0d1f5]/30 group-hover:border-[#f0d1f5] group-hover:shadow-[0_0_30px_rgba(240,209,245,0.2)] group-hover:-translate-y-2'}
+      `}>
         
         {/* Inner Decorative Ring */}
         <div className="absolute inset-2 border border-dashed border-[#f0d1f5]/10 rounded-[2.2rem] pointer-events-none"></div>
@@ -85,16 +107,29 @@ const QuestCard: React.FC<QuestCardProps> = ({ quest, status, onClick }) => {
         </div>
 
         {/* Status Indicators */}
-        {status === 'accepted' && (
-            <div className="absolute top-4 right-4">
-                <div className="w-2 h-2 bg-[#f0d1f5] rounded-full shadow-[0_0_8px_#f0d1f5] animate-pulse"></div>
+        {status === 'active' && (
+            <div className="absolute top-0 right-0 p-4 flex items-center gap-1">
+                <div className="bg-[#f0d1f5] text-[#0b1021] text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow-[0_0_10px_rgba(240,209,245,0.5)] animate-pulse">
+                    <Loader2 size={10} className="animate-spin" />
+                    {timeLeft}
+                </div>
             </div>
         )}
+        
         {status === 'completed' && (
             <div className="absolute inset-0 bg-[#0b1021]/80 backdrop-blur-[1px] flex items-center justify-center z-20 rounded-[2.5rem]">
                 <div className="border border-[#f0d1f5] bg-[#f0d1f5] px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(240,209,245,0.4)] transform -rotate-12">
                     <Check size={16} className="text-[#0b1021]" strokeWidth={3} />
                     <span className="text-xs font-bold text-[#0b1021] uppercase tracking-widest">Verified</span>
+                </div>
+            </div>
+        )}
+
+        {status === 'failed' && (
+            <div className="absolute inset-0 bg-red-950/60 backdrop-blur-[1px] flex items-center justify-center z-20 rounded-[2.5rem]">
+                <div className="border border-red-500 bg-red-950 px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(220,38,38,0.4)]">
+                    <XCircle size={16} className="text-red-500" strokeWidth={3} />
+                    <span className="text-xs font-bold text-red-500 uppercase tracking-widest">Failed</span>
                 </div>
             </div>
         )}

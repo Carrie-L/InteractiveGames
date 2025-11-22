@@ -10,7 +10,10 @@ export const QUESTS: Quest[] = [
     description: "向世界宣告你的到来！制作一个精美的生日贺卡，迈出成为大魔导师的第一步。",
     xp: 50,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-building-app-ui",
-    requirements: ["使用 Column 布局", "显示 Text 和 Image", "调整字体大小"]
+    requirements: ["使用 Column 布局", "显示 Text 和 Image", "调整字体大小"],
+    countdown: 24, // 24 hours
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_002",
@@ -20,7 +23,10 @@ export const QUESTS: Quest[] = [
     description: "掌握状态的奥秘。制作一个可以投掷的魔法骰子，让命运决定结果！",
     xp: 80,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-dice-roller",
-    requirements: ["使用 Button 组件", "理解 remember 和 mutableStateOf", "随机数生成"]
+    requirements: ["使用 Button 组件", "理解 remember 和 mutableStateOf", "随机数生成"],
+    countdown: 24,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_003",
@@ -30,7 +36,10 @@ export const QUESTS: Quest[] = [
     description: "世界太嘈杂，我们需要一个清单来记录美好的咒语。学会处理长列表。",
     xp: 150,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-training-affirmations",
-    requirements: ["使用 LazyColumn", "创建可复用的 ListItem", "加载图片资源"]
+    requirements: ["使用 LazyColumn", "创建可复用的 ListItem", "加载图片资源"],
+    countdown: 48,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_004",
@@ -40,7 +49,10 @@ export const QUESTS: Quest[] = [
     description: "帮助镇上的甜点师管理订单。你需要掌握在不同页面间穿梭的时空魔法。",
     xp: 300,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-cupcake-navigation",
-    requirements: ["使用 Navigation 组件", "共享 ViewModel 数据", "处理返回栈"]
+    requirements: ["使用 Navigation 组件", "共享 ViewModel 数据", "处理返回栈"],
+    countdown: 48,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_005",
@@ -50,7 +62,10 @@ export const QUESTS: Quest[] = [
     description: "将视线投向星辰！连接遥远的服务器，获取火星的影像数据。",
     xp: 500,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-mars-photos-coil",
-    requirements: ["使用 Retrofit 进行网络请求", "使用 Coil 加载网络图片", "处理 Loading 和 Error 状态"]
+    requirements: ["使用 Retrofit 进行网络请求", "使用 Coil 加载网络图片", "处理 Loading 和 Error 状态"],
+    countdown: 72,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_006",
@@ -60,7 +75,10 @@ export const QUESTS: Quest[] = [
     description: "建立一个永不遗忘的仓库。将数据铭刻在本地的魔法石板（数据库）上。",
     xp: 800,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-inventory-app",
-    requirements: ["使用 Room 数据库", "DAO 模式", "协程与 Flow"]
+    requirements: ["使用 Room 数据库", "DAO 模式", "协程与 Flow"],
+    countdown: 72,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_007",
@@ -70,7 +88,10 @@ export const QUESTS: Quest[] = [
     description: "为不同的魔法视窗（屏幕尺寸）打造完美的通信工具。自适应布局是高阶法师的必修课。",
     xp: 1500,
     codelabUrl: "https://developer.android.com/codelabs/basic-android-kotlin-compose-reply-app",
-    requirements: ["Window Size Classes", "自适应导航栏", "多窗格布局"]
+    requirements: ["Window Size Classes", "自适应导航栏", "多窗格布局"],
+    countdown: 96,
+    isTaked: false,
+    isFinished: false,
   },
   {
     id: "quest_008",
@@ -80,6 +101,9 @@ export const QUESTS: Quest[] = [
     description: "重铸传说级应用。这是对架构、性能、工程化能力的终极考验。",
     xp: 5000,
     codelabUrl: "https://github.com/android/nowinandroid",
-    requirements: ["模块化架构", "Hilt 依赖注入", "全套 Jetpack 组件"]
+    requirements: ["模块化架构", "Hilt 依赖注入", "全套 Jetpack 组件"],
+    countdown: 168, // 1 week
+    isTaked: false,
+    isFinished: false,
   }
 ];
