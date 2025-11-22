@@ -127,13 +127,20 @@ export default function ShapeClipGame({ onExit }: ShapeClipGameProps) {
                         )
                     </div>
 
-                    <button 
-                        onClick={() => setIsClipped(!isClipped)}
-                        className={`px-8 py-3 rounded-full text-white font-bold shadow-md transition-all flex items-center gap-2 ${isClipped ? 'bg-slate-500 hover:bg-slate-600' : 'bg-rose-500 hover:bg-rose-600'}`}
-                    >
-                        {isClipped ? <RefreshCw size={18}/> : <Scissors size={18}/>}
-                        {isClipped ? "还原" : "剪成圆形"}
-                    </button>
+                    <div className="flex flex-col items-center gap-2">
+                        <button 
+                            onClick={() => setIsClipped(!isClipped)}
+                            className={`px-8 py-3 rounded-full text-white font-bold shadow-md transition-all flex items-center gap-2 ${isClipped ? 'bg-slate-500 hover:bg-slate-600' : 'bg-rose-500 hover:bg-rose-600'}`}
+                        >
+                            {isClipped ? <RefreshCw size={18}/> : <Scissors size={18}/>}
+                            {isClipped ? "还原" : "剪成圆形"}
+                        </button>
+                        {isClipped && (
+                            <div className="text-emerald-500 text-xs font-bold animate-bounce mt-2">
+                                → 现在可以点击下一步啦！
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="flex justify-center">
@@ -862,7 +869,9 @@ export default function ShapeClipGame({ onExit }: ShapeClipGameProps) {
                 </button>
 
                 {/* Logic Gates */}
-                {currentStage.includes('Q') && !quizCorrect ? (
+                {currentStage === 'SQUARE_TO_CIRCLE' && !isClipped ? (
+                     <span className="text-rose-400 font-bold text-sm animate-pulse">请先剪裁形状...</span>
+                ) : (currentStage.includes('Q') || currentStage === 'BORDER_PUZZLE' || currentStage === 'SHAPE_MYSTERY') && !quizCorrect ? (
                      <span className="text-rose-400 font-bold text-sm">答对挑战后继续...</span>
                 ) : (
                     <button 

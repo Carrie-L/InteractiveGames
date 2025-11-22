@@ -10,9 +10,10 @@ import ShapeClipGame from './games/shape-clip/ShapeClipGame';
 import ArrangementLabGame from './games/arrangement-lab/ArrangementLabGame';
 import AlignmentAdventureGame from './games/alignment-adventure/AlignmentAdventureGame';
 import ClickMagicGame from './games/click-magic/ClickMagicGame';
+import SummaryQuizGame from './games/summary-quiz/SummaryQuizGame';
 import XiaoQi from './games/layout-magic/components/XiaoQi'; 
 import { GameId } from './types';
-import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors } from 'lucide-react';
+import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors, ScrollText } from 'lucide-react';
 
 export default function App() {
   const [activeGame, setActiveGame] = useState<GameId>('HOME');
@@ -60,6 +61,11 @@ export default function App() {
   // 1.4.1 Click Magic
   if (activeGame === 'CLICK_MAGIC') {
     return <ClickMagicGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  // 1.4.2 Summary Quiz
+  if (activeGame === 'SUMMARY_QUIZ') {
+    return <SummaryQuizGame onExit={() => setActiveGame('HOME')} />;
   }
 
   // Final Challenge: Layout Magic
@@ -270,24 +276,43 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 10: Layout Magic Book (Final) */}
+            {/* Game Card 10: Summary Quiz (1.4.2) - Parchment Theme */}
+            <button 
+                onClick={() => setActiveGame('SUMMARY_QUIZ')}
+                className="group relative bg-[#f7efe5] rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-200 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <ScrollText size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">1.4.2 魔法综合测验</h3>
+                    <p className="text-amber-800/80 text-xs leading-relaxed mb-4">
+                        学期末的小测验！13道题目，检验你的魔法基础。
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-amber-700 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 知识巩固
+                </div>
+            </button>
+
+            {/* Game Card 11: Layout Magic Book (Final) - Standard White Theme */}
             <button 
                 onClick={() => setActiveGame('LAYOUT_MAGIC')}
-                className="group relative bg-amber-100 rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-200 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
-                
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
-                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-6 transition-transform">
+                    <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <LayoutTemplate size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
-                    <p className="text-amber-800/80 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
                         实战演练，挑战复杂布局。Row, Column, Arrangement, Alignment 的终极考核！
                     </p>
                 </div>
-                 <div className="relative z-10 flex items-center text-amber-700 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                <div className="relative z-10 flex items-center text-amber-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
                     <Sparkles size={12} className="mr-1" /> 终极挑战
                 </div>
             </button>
