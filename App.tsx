@@ -12,7 +12,7 @@ import AlignmentAdventureGame from './games/alignment-adventure/AlignmentAdventu
 import ClickMagicGame from './games/click-magic/ClickMagicGame';
 import SummaryQuizGame from './games/summary-quiz/SummaryQuizGame';
 import GuildHall from './games/guild-hall/GuildHall';
-import XiaoQi from './games/layout-magic/components/XiaoQi'; 
+import XiaoQi from './components/XiaoQi'; 
 import { GameId } from './types';
 import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors, ScrollText, Map, ArrowRight } from 'lucide-react';
 
@@ -80,10 +80,11 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 sm:p-8 font-sans relative">
-       {/* Background Decor */}
-      <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-      <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+    <div className="min-h-screen bg-[#F1F5F9] flex flex-col items-center justify-center p-4 sm:p-8 font-sans relative text-slate-800">
+       {/* Background Decor - Sweet Cool Theme */}
+      <div className="absolute top-0 left-0 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
+      <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-0 left-20 w-64 h-64 bg-cyan-200 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000"></div>
       
       {/* Xiao Qi Avatar - Top Left */}
       <div className="absolute top-6 left-6 z-20 scale-75 origin-top-left sm:scale-100">
@@ -92,32 +93,39 @@ export default function App() {
 
       <div className="relative z-10 text-center max-w-7xl w-full mt-12 sm:mt-0">
          <div className="mb-12 animate-fade-in-down">
-            <h1 className="text-5xl sm:text-6xl font-bold text-amber-800 mb-4 tracking-tight">
-              起司猫的 UI 魔法学院
+            <h1 className="text-5xl sm:text-6xl font-bold text-slate-800 mb-4 tracking-tight drop-shadow-sm">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">起司猫</span>
+              的 UI 魔法学院
             </h1>
-            <p className="text-xl text-amber-700 max-w-xl mx-auto">
+            <p className="text-xl text-slate-500 max-w-xl mx-auto font-medium">
               跟随小奇猫咪，通过交互式游戏轻松掌握 Jetpack Compose 的核心奥义！
             </p>
          </div>
 
-         {/* Guild Hall Banner */}
+         {/* Guild Hall Banner - Cool Blue/Cyber Theme */}
          <div className="max-w-3xl mx-auto mb-12">
             <button 
                 onClick={() => setActiveGame('GUILD_HALL')}
-                className="w-full group relative bg-[#5D4037] rounded-2xl p-1 shadow-xl overflow-hidden transform hover:-translate-y-1 transition-all duration-300"
+                className="w-full group relative bg-[#0F172A] rounded-2xl p-1 shadow-xl overflow-hidden transform hover:-translate-y-1 transition-all duration-300 ring-4 ring-transparent hover:ring-cyan-200/50"
             >
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-20"></div>
-                <div className="relative bg-amber-900/50 backdrop-blur-sm border-2 border-[#8D6E63] rounded-xl p-6 flex items-center justify-between group-hover:bg-amber-900/70 transition-colors">
-                    <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center border-4 border-amber-200 shadow-lg">
-                            <Map className="text-[#5D4037] w-8 h-8" />
+                {/* Stardust Texture */}
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-20 animate-pulse"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-900/50 to-purple-900/50 opacity-50"></div>
+                
+                <div className="relative bg-[#1E293B]/80 backdrop-blur-md border-2 border-cyan-500/30 rounded-xl p-6 flex items-center justify-between group-hover:bg-[#1E293B]/90 transition-colors group-hover:border-cyan-400/60">
+                    <div className="flex items-center gap-6">
+                        <div className="w-16 h-16 bg-cyan-500 rounded-full flex items-center justify-center border-4 border-cyan-200 shadow-[0_0_20px_rgba(6,182,212,0.5)] group-hover:scale-110 transition-transform">
+                            <Map className="text-white w-8 h-8" />
                         </div>
                         <div className="text-left">
-                            <h3 className="text-2xl font-bold text-amber-100">前往：星辰委托公会</h3>
-                            <p className="text-amber-200/80 text-sm">接取实战悬赏，赚取魔力结晶，提升你的魔法师等级！</p>
+                            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+                                前往：星辰委托公会
+                                <Sparkles size={16} className="text-yellow-300 animate-spin-slow" />
+                            </h3>
+                            <p className="text-cyan-100/80 text-sm font-medium">接取实战悬赏，赚取魔力结晶，提升你的魔法师等级！</p>
                         </div>
                     </div>
-                    <div className="hidden sm:block text-amber-400">
+                    <div className="hidden sm:block text-cyan-400 group-hover:translate-x-2 transition-transform">
                         <ArrowRight size={32} />
                     </div>
                 </div>
@@ -129,15 +137,15 @@ export default function App() {
             {/* Game Card 1: Intro (1.1.1) */}
             <button 
                 onClick={() => setActiveGame('COMPOSE_INTRO')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-purple-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-purple-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Wand2 size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-purple-700 transition-colors">1.1.1 魔法入门</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-purple-700 transition-colors">1.1.1 魔法入门</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         声明式 vs 命令式，施展 @Composable 咒语。
                     </p>
                 </div>
@@ -149,15 +157,15 @@ export default function App() {
             {/* Game Card 2: Data Driven (1.1.2) */}
             <button 
                 onClick={() => setActiveGame('DATA_DRIVEN')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-cyan-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-cyan-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Film size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-cyan-700 transition-colors">1.1.2 数据驱动</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-cyan-700 transition-colors">1.1.2 数据驱动</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         化身 UI 放映师，理解 UI = f(State)。
                     </p>
                 </div>
@@ -169,15 +177,15 @@ export default function App() {
             {/* Game Card 3: Column Adventure (1.2.1) */}
             <button 
                 onClick={() => setActiveGame('COLUMN_ADVENTURE')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-green-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-green-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-green-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-green-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Layers size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-green-700 transition-colors">1.2.1 Column 冒险</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-green-700 transition-colors">1.2.1 Column 冒险</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         垂直排列的秘密，解决堆叠危机！
                     </p>
                 </div>
@@ -189,15 +197,15 @@ export default function App() {
             {/* Game Card 4: Row Adventure (1.2.2) */}
              <button 
                 onClick={() => setActiveGame('ROW_ADVENTURE')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-orange-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-orange-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-orange-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-orange-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <AlignHorizontalSpaceAround size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-orange-700 transition-colors">1.2.2 Row 露营</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-orange-700 transition-colors">1.2.2 Row 露营</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         水平排队的魔法，领小鱼干啦！
                     </p>
                 </div>
@@ -209,15 +217,15 @@ export default function App() {
              {/* Game Card 5: Box Adventure (1.2.3) */}
              <button 
                 onClick={() => setActiveGame('BOX_ADVENTURE')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-indigo-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-indigo-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Box size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-indigo-700 transition-colors">1.2.3 Box 探险</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-indigo-700 transition-colors">1.2.3 Box 探险</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         Z轴的堆叠艺术，制作带角标的头像！
                     </p>
                 </div>
@@ -229,15 +237,15 @@ export default function App() {
             {/* Game Card 6: Shape & Clip (1.2.4) */}
             <button 
                 onClick={() => setActiveGame('SHAPE_CLIP')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-rose-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-rose-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-rose-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-rose-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <Scissors size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-rose-700 transition-colors">1.2.4 形状裁剪</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-rose-700 transition-colors">1.2.4 形状裁剪</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         拿起魔法剪刀！Clip、Shape 与 Modifier 顺序的奥秘。
                     </p>
                 </div>
@@ -249,15 +257,15 @@ export default function App() {
              {/* Game Card 7: Arrangement Lab (1.3.2) */}
              <button 
                 onClick={() => setActiveGame('ARRANGEMENT_LAB')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-pink-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-pink-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-pink-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-pink-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center text-pink-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <SplitSquareHorizontal size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-pink-700 transition-colors">1.3.2 空间魔法</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-pink-700 transition-colors">1.3.2 空间魔法</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         Arrangement 实验室，切分剩余空间！
                     </p>
                 </div>
@@ -269,15 +277,15 @@ export default function App() {
             {/* Game Card 8: Alignment Adventure (1.3.3) */}
              <button 
                 onClick={() => setActiveGame('ALIGNMENT_ADVENTURE')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-teal-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-teal-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-teal-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-teal-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center text-teal-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <ArrowUpFromLine size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-teal-700 transition-colors">1.3.3 对齐探险</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-teal-700 transition-colors">1.3.3 对齐探险</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         整理玩具箱，掌握 Cross-Axis 交叉轴的奥秘！
                     </p>
                 </div>
@@ -289,15 +297,15 @@ export default function App() {
             {/* Game Card 9: Click Magic (1.4.1) */}
             <button 
                 onClick={() => setActiveGame('CLICK_MAGIC')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-violet-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-violet-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-violet-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-violet-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
                     <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-violet-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <MousePointerClick size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-violet-700 transition-colors">1.4.1 交互魔法</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-violet-700 transition-colors">1.4.1 交互魔法</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         让 UI 活起来！掌握 Clickable 顺序与水波纹。
                     </p>
                 </div>
@@ -306,43 +314,43 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 10: Summary Quiz (1.4.2) - Parchment Theme */}
+            {/* Game Card 10: Summary Quiz (1.4.2) - Tech/Blueprint Theme */}
             <button 
                 onClick={() => setActiveGame('SUMMARY_QUIZ')}
-                className="group relative bg-[#f7efe5] rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-blue-50 rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-blue-400 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-200 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-blue-200 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
-                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform border border-blue-100">
                         <ScrollText size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">1.4.2 魔法综合测验</h3>
-                    <p className="text-amber-800/80 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-blue-900 mb-1 group-hover:text-blue-700 transition-colors">1.4.2 魔法综合测验</h3>
+                    <p className="text-blue-800/70 text-xs leading-relaxed mb-4">
                         学期末的小测验！13道题目，检验你的魔法基础。
                     </p>
                 </div>
-                <div className="relative z-10 flex items-center text-amber-700 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                <div className="relative z-10 flex items-center text-blue-700 font-bold text-[10px] uppercase tracking-wider mt-auto">
                     <GraduationCap size={12} className="mr-1" /> 知识巩固
                 </div>
             </button>
 
-            {/* Game Card 11: Layout Magic Book (Final) - Standard White Theme */}
+            {/* Game Card 11: Layout Magic Book (Final) - Indigo Theme */}
             <button 
                 onClick={() => setActiveGame('LAYOUT_MAGIC')}
-                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+                className="group relative bg-white rounded-[2rem] p-6 shadow-lg border-2 border-white hover:border-indigo-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
                 <div className="relative z-10 flex-1">
-                    <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                    <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
                         <LayoutTemplate size={24} />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
-                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                    <h3 className="text-lg font-bold text-slate-800 mb-1 group-hover:text-indigo-700 transition-colors">布局魔法书</h3>
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4">
                         实战演练，挑战复杂布局。Row, Column, Arrangement, Alignment 的终极考核！
                     </p>
                 </div>
-                <div className="relative z-10 flex items-center text-amber-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                <div className="relative z-10 flex items-center text-indigo-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
                     <Sparkles size={12} className="mr-1" /> 终极挑战
                 </div>
             </button>
