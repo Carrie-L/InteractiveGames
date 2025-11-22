@@ -11,9 +11,10 @@ import ArrangementLabGame from './games/arrangement-lab/ArrangementLabGame';
 import AlignmentAdventureGame from './games/alignment-adventure/AlignmentAdventureGame';
 import ClickMagicGame from './games/click-magic/ClickMagicGame';
 import SummaryQuizGame from './games/summary-quiz/SummaryQuizGame';
+import GuildHall from './games/guild-hall/GuildHall';
 import XiaoQi from './games/layout-magic/components/XiaoQi'; 
 import { GameId } from './types';
-import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors, ScrollText } from 'lucide-react';
+import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors, ScrollText, Map, ArrowRight } from 'lucide-react';
 
 export default function App() {
   const [activeGame, setActiveGame] = useState<GameId>('HOME');
@@ -73,6 +74,11 @@ export default function App() {
     return <LayoutMagicGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // Guild Hall
+  if (activeGame === 'GUILD_HALL') {
+    return <GuildHall onExit={() => setActiveGame('HOME')} />;
+  }
+
   return (
     <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 sm:p-8 font-sans relative">
        {/* Background Decor */}
@@ -92,6 +98,30 @@ export default function App() {
             <p className="text-xl text-amber-700 max-w-xl mx-auto">
               跟随小奇猫咪，通过交互式游戏轻松掌握 Jetpack Compose 的核心奥义！
             </p>
+         </div>
+
+         {/* Guild Hall Banner */}
+         <div className="max-w-3xl mx-auto mb-12">
+            <button 
+                onClick={() => setActiveGame('GUILD_HALL')}
+                className="w-full group relative bg-[#5D4037] rounded-2xl p-1 shadow-xl overflow-hidden transform hover:-translate-y-1 transition-all duration-300"
+            >
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')] opacity-20"></div>
+                <div className="relative bg-amber-900/50 backdrop-blur-sm border-2 border-[#8D6E63] rounded-xl p-6 flex items-center justify-between group-hover:bg-amber-900/70 transition-colors">
+                    <div className="flex items-center gap-4">
+                        <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center border-4 border-amber-200 shadow-lg">
+                            <Map className="text-[#5D4037] w-8 h-8" />
+                        </div>
+                        <div className="text-left">
+                            <h3 className="text-2xl font-bold text-amber-100">前往：星辰委托公会</h3>
+                            <p className="text-amber-200/80 text-sm">接取实战悬赏，赚取魔力结晶，提升你的魔法师等级！</p>
+                        </div>
+                    </div>
+                    <div className="hidden sm:block text-amber-400">
+                        <ArrowRight size={32} />
+                    </div>
+                </div>
+            </button>
          </div>
 
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
