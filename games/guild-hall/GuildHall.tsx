@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Home, Gem, Filter, Lock, Sparkles } from 'lucide-react';
+import { Home, Sparkles, Filter, Lock, Compass, Star, Moon, Flower2, Leaf } from 'lucide-react';
 import { QUESTS } from './data/quests';
 import { getProgress, acceptQuest, completeQuest } from './utils/storage';
 import { UserProgress, Quest } from './types';
@@ -10,6 +10,24 @@ import QuestModal from './components/QuestModal';
 interface GuildHallProps {
   onExit: () => void;
 }
+
+// Decorative Corner Component
+const FloralCorner = ({ className, rotate = 0 }: { className?: string, rotate?: number }) => (
+    <div className={`absolute pointer-events-none z-30 flex items-center justify-center ${className}`} style={{ transform: `rotate(${rotate}deg)` }}>
+        <div className="relative w-32 h-32">
+            {/* Main Flower */}
+            <Flower2 className="absolute top-0 left-0 text-[#f0d1f5] drop-shadow-[0_0_10px_rgba(240,209,245,0.5)]" size={48} strokeWidth={1} />
+            {/* Leaves */}
+            <Leaf className="absolute top-8 left-[-10px] text-cyan-200/60 transform -rotate-45" size={24} strokeWidth={1} />
+            <Leaf className="absolute top-[-10px] left-8 text-cyan-200/60 transform rotate-12" size={24} strokeWidth={1} />
+            {/* Vines/Lines */}
+            <div className="absolute top-6 left-6 w-24 h-24 border-t-2 border-l-2 border-[#f0d1f5]/30 rounded-tl-[40px]"></div>
+            <div className="absolute top-4 left-4 w-28 h-28 border-t border-l border-[#f0d1f5]/10 rounded-tl-[50px]"></div>
+            {/* Sparkles */}
+            <Sparkles className="absolute top-10 left-10 text-[#f0d1f5] animate-pulse" size={16} />
+        </div>
+    </div>
+);
 
 export default function GuildHall({ onExit }: GuildHallProps) {
   const [progress, setProgress] = useState<UserProgress>(getProgress());
@@ -29,7 +47,6 @@ export default function GuildHall({ onExit }: GuildHallProps) {
   const handleComplete = (quest: Quest) => {
     const newProgress = completeQuest(quest.id, quest.xp);
     setProgress(newProgress);
-    // Modal will close shortly via its own internal timer logic or manual close
   };
 
   const getQuestStatus = (id: string) => {
@@ -41,76 +58,114 @@ export default function GuildHall({ onExit }: GuildHallProps) {
   const filteredQuests = QUESTS.filter(q => !filterRank || q.rank === filterRank);
 
   return (
-    <div className="min-h-screen bg-[#090515] relative font-sans overflow-x-hidden text-pink-50 selection:bg-pink-500/30">
+    <div className="min-h-screen bg-[#0b1021] relative font-sans overflow-x-hidden text-slate-200 selection:bg-[#f0d1f5]/30">
         
-        {/* Mystical Background */}
-        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#2d1b4e] via-[#090515] to-[#000000] pointer-events-none"></div>
-        <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 pointer-events-none"></div>
-        
-        {/* Floating Cosmic Orbs */}
-        <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[120px] animate-blob pointer-events-none"></div>
-        <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-pink-600/20 rounded-full blur-[120px] animate-blob animation-delay-2000 pointer-events-none"></div>
+        {/* Celestial Background */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+            {/* Deep Space Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0b1021] via-[#161b33] to-[#0b1021]"></div>
+            
+            {/* Starry Noise */}
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30 animate-pulse"></div>
+
+            {/* Central Magic Circle - Soft Pink */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40">
+                <div className="w-[70vmin] h-[70vmin] border border-[#f0d1f5]/20 rounded-full animate-spin-slow duration-[120s] relative flex items-center justify-center">
+                     <div className="w-[50vmin] h-[50vmin] border border-cyan-500/10 rounded-full border-dashed animate-reverse-spin"></div>
+                     <div className="w-[30vmin] h-[30vmin] border border-[#f0d1f5]/30 rounded-full rotate-45"></div>
+                </div>
+            </div>
+            
+            {/* Floral Frame Corners */}
+            <div className="fixed inset-4 pointer-events-none z-50 hidden sm:block">
+                <FloralCorner className="top-0 left-0" rotate={0} />
+                <FloralCorner className="top-0 right-0" rotate={90} />
+                <FloralCorner className="bottom-0 right-0" rotate={180} />
+                <FloralCorner className="bottom-0 left-0" rotate={270} />
+            </div>
+        </div>
 
         {/* Header / HUD */}
-        <header className="sticky top-0 z-40 bg-[#0f0c1d]/80 backdrop-blur-md border-b border-pink-500/20 shadow-[0_4px_30px_rgba(236,72,153,0.15)] p-4 flex justify-between items-center">
+        <header className="sticky top-0 z-40 bg-[#0b1021]/80 backdrop-blur-md border-b border-[#f0d1f5]/20 p-4 flex justify-between items-center shadow-[0_4px_30px_rgba(240,209,245,0.05)] rounded-b-3xl mx-2">
             <div className="flex items-center gap-4">
                 <button 
                     onClick={onExit}
-                    className="p-2 bg-white/5 rounded-full hover:bg-pink-500/20 hover:text-pink-200 transition-colors border border-pink-500/30 text-pink-400"
+                    className="p-2 bg-white/5 rounded-full hover:bg-[#f0d1f5] hover:text-[#0b1021] transition-all border border-[#f0d1f5]/30 text-[#f0d1f5]"
                 >
                     <Home size={20} />
                 </button>
-                <div className="flex items-center gap-2">
-                    <Sparkles className="text-pink-400 animate-pulse" size={20} />
-                    <h1 className="text-xl sm:text-2xl font-serif font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-pink-200 via-purple-200 to-pink-200 drop-shadow-sm">
-                        星辰委托公会
-                    </h1>
+                <div className="flex items-center gap-3">
+                    <div className="relative">
+                        <Flower2 className="text-[#f0d1f5] animate-spin-slow" size={32} strokeWidth={1.5} />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-1 h-1 bg-cyan-400 rounded-full shadow-[0_0_5px_#22d3ee]"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 className="text-xl sm:text-2xl font-serif font-bold tracking-[0.1em] text-[#f0d1f5] drop-shadow-sm">
+                            MYSTIC GARDEN
+                        </h1>
+                        <p className="text-[9px] text-cyan-200/70 uppercase tracking-[0.4em] leading-none text-center">Guild Hall</p>
+                    </div>
                 </div>
             </div>
 
             <div className="flex items-center gap-6">
-                <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-pink-300/70 uppercase font-bold tracking-wider">Magician Rank</span>
-                    <span className="text-2xl font-bold leading-none text-pink-100 font-serif">Lv. {progress.level}</span>
+                <div className="flex flex-col items-end hidden sm:flex">
+                    <span className="text-[9px] text-[#f0d1f5] uppercase font-bold tracking-widest">Magician</span>
+                    <div className="flex items-baseline gap-1">
+                        <Moon size={12} className="text-cyan-400" fill="currentColor"/>
+                        <span className="text-xl font-bold leading-none text-white font-serif">Lv. {progress.level}</span>
+                    </div>
                 </div>
                 <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-pink-300/70 uppercase font-bold tracking-wider">Mana Crystals</span>
-                    <div className="flex items-center gap-1 text-cyan-300">
-                        <Gem size={18} fill="currentColor" className="drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]" />
-                        <span className="text-2xl font-bold leading-none font-mono">{progress.currentXp}</span>
+                    <span className="text-[9px] text-[#f0d1f5] uppercase font-bold tracking-widest">Mana</span>
+                    <div className="flex items-center gap-1.5 text-white">
+                        <Sparkles size={16} fill="currentColor" className="text-cyan-400" />
+                        <span className="text-xl font-bold leading-none font-mono">{progress.currentXp}</span>
                     </div>
                 </div>
             </div>
         </header>
 
         {/* Main Content - The Board */}
-        <main className="p-4 sm:p-8 max-w-7xl mx-auto relative z-10">
+        <main className="p-6 sm:p-10 max-w-7xl mx-auto relative z-10">
             
-            {/* Filter Bar */}
-            <div className="mb-8 flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-2 text-pink-300/80 mr-4">
-                    <Filter size={18} />
-                    <span className="text-sm font-bold uppercase tracking-wide">Filter:</span>
+            {/* Filter Bar - Rounded Pills */}
+            <div className="mb-12 flex flex-wrap items-center justify-center gap-3">
+                <div className="flex items-center gap-2 text-[#f0d1f5]/80 mr-4">
+                    <Filter size={16} />
+                    <span className="text-xs font-bold uppercase tracking-widest">Filter:</span>
                 </div>
+                
                 <button 
                     onClick={() => setFilterRank(null)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border ${!filterRank ? 'bg-pink-500 text-white border-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.5)]' : 'bg-transparent text-pink-300 border-pink-500/30 hover:bg-pink-500/10'}`}
+                    className={`px-6 py-2 text-xs font-bold transition-all rounded-full border ${
+                        !filterRank 
+                        ? 'bg-[#f0d1f5] text-[#0b1021] border-[#f0d1f5] shadow-[0_0_15px_rgba(240,209,245,0.3)]' 
+                        : 'bg-transparent text-[#f0d1f5] border-[#f0d1f5]/30 hover:border-[#f0d1f5] hover:bg-[#f0d1f5]/10'
+                    }`}
                 >
-                    All
+                    ALL
                 </button>
+                
                 {['F', 'E', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS'].map(rank => (
                     <button 
                         key={rank}
                         onClick={() => setFilterRank(rank)}
-                        className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-bold transition-all border ${filterRank === rank ? 'bg-pink-500 text-white border-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.5)]' : 'bg-transparent text-pink-300 border-pink-500/30 hover:bg-pink-500/10'}`}
+                        className={`min-w-[40px] px-3 py-2 text-[10px] sm:text-xs font-bold transition-all rounded-full border relative group overflow-hidden ${
+                            filterRank === rank 
+                            ? 'bg-[#f0d1f5] text-[#0b1021] border-[#f0d1f5] shadow-[0_0_15px_rgba(240,209,245,0.3)]' 
+                            : 'bg-transparent text-[#f0d1f5] border-[#f0d1f5]/30 hover:border-[#f0d1f5] hover:bg-[#f0d1f5]/10'
+                        }`}
                     >
-                        {rank}
+                        <span className="relative z-10">{rank}</span>
                     </button>
                 ))}
             </div>
 
             {/* Quest Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-20">
                 {filteredQuests.map(quest => (
                     <QuestCard 
                         key={quest.id}
@@ -120,18 +175,13 @@ export default function GuildHall({ onExit }: GuildHallProps) {
                     />
                 ))}
                 
-                {/* Placeholder for "Coming Soon" */}
-                <div className="opacity-40 grayscale pointer-events-none relative group">
-                    <div className="absolute inset-0 flex items-center justify-center z-20">
-                        <Lock size={48} className="text-pink-200/50" />
-                    </div>
-                    <div className="bg-[#1a1625]/50 w-full aspect-[3/4] p-4 shadow-inner border border-pink-500/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                        <div className="h-full w-full border border-dashed border-pink-500/20 rounded-lg flex flex-col items-center justify-center p-4">
-                             <span className="font-serif font-bold text-pink-200/50 text-lg text-center">
-                                 Mystical<br/>Stars<br/>Awaiting...
-                             </span>
-                        </div>
-                    </div>
+                {/* Placeholder for "Coming Soon" - Sealed Card */}
+                <div className="opacity-50 pointer-events-none relative group border border-[#f0d1f5]/20 bg-[#13192b] aspect-[3/5] flex flex-col items-center justify-center rounded-[2.5rem]">
+                    <div className="absolute inset-4 border border-dashed border-[#f0d1f5]/20 rounded-[2rem]"></div>
+                    <Lock size={32} className="text-[#f0d1f5]/50 mb-3" />
+                    <span className="font-serif font-bold text-[#f0d1f5]/50 text-sm text-center tracking-widest uppercase">
+                        Blooming Soon
+                    </span>
                 </div>
             </div>
         </main>

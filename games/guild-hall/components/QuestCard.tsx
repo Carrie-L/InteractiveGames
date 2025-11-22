@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Quest, QuestRank } from '../types';
-import { Paperclip, Sparkles, Star } from 'lucide-react';
+import { Check, Moon, Sun, Sparkles, Eye, Star, Flower2 } from 'lucide-react';
 
 interface QuestCardProps {
   quest: Quest;
@@ -9,75 +9,95 @@ interface QuestCardProps {
   onClick: () => void;
 }
 
-const RANK_COLORS: Record<QuestRank, string> = {
-  'F': 'text-slate-300 border-slate-500',
-  'E': 'text-slate-200 border-slate-400',
-  'D': 'text-emerald-300 border-emerald-500',
-  'C': 'text-teal-300 border-teal-500',
-  'B': 'text-blue-300 border-blue-500',
-  'A': 'text-purple-300 border-purple-500',
-  'S': 'text-orange-300 border-orange-500',
-  'SS': 'text-red-300 border-red-500',
-  'SSS': 'text-amber-300 border-amber-500 shadow-[0_0_10px_rgba(251,191,36,0.5)]',
+// Colors tailored to the Mystic Garden theme
+const RANK_STYLES: Record<QuestRank, { color: string, icon: React.ReactNode }> = {
+  'F': { color: '#94a3b8', icon: <Star size={14} /> }, // Slate
+  'E': { color: '#cbd5e1', icon: <Star size={14} /> }, // Light Slate
+  'D': { color: '#2dd4bf', icon: <Moon size={14} /> }, // Teal
+  'C': { color: '#22d3ee', icon: <Moon size={14} /> }, // Cyan
+  'B': { color: '#60a5fa', icon: <Sun size={14} /> }, // Blue
+  'A': { color: '#818cf8', icon: <Sun size={14} /> }, // Indigo
+  'S': { color: '#c084fc', icon: <Eye size={14} /> }, // Purple
+  'SS': { color: '#f472b6', icon: <Eye size={14} /> }, // Pink
+  'SSS': { color: '#f0d1f5', icon: <Sparkles size={14} /> }, // Main Pink
 };
 
 const QuestCard: React.FC<QuestCardProps> = ({ quest, status, onClick }) => {
+  const { color, icon } = RANK_STYLES[quest.rank];
+
   return (
     <div 
       onClick={onClick}
-      className="relative group cursor-pointer transition-all hover:scale-105 hover:z-10 duration-500"
+      className="relative group cursor-pointer perspective-1000"
     >
-      {/* Glow Effect on Hover */}
-      <div className="absolute inset-0 bg-pink-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-      {/* Main Card Body */}
-      <div className="bg-[#16162c]/90 w-full aspect-[3/4] p-1 shadow-xl border border-pink-500/30 rounded-xl relative flex flex-col overflow-hidden backdrop-blur-sm group-hover:border-pink-400/60 transition-colors">
+      {/* Card Container - Very Rounded, Floral Pink Border */}
+      <div className="w-full aspect-[3/5] bg-[#13192b] relative flex flex-col border-[1.5px] border-[#f0d1f5]/30 group-hover:border-[#f0d1f5] group-hover:shadow-[0_0_30px_rgba(240,209,245,0.2)] group-hover:-translate-y-2 transition-all duration-500 ease-out overflow-hidden rounded-[2.5rem]">
         
-        {/* Inner Frame for "Panel" Look */}
-        <div className="h-full w-full border border-pink-500/10 rounded-lg p-4 flex flex-col relative bg-gradient-to-b from-white/5 to-transparent">
-            
-            {/* Decorative Corner Stars */}
-            <Sparkles className="absolute top-2 left-2 text-pink-200/30 w-3 h-3" />
-            <Sparkles className="absolute top-2 right-2 text-pink-200/30 w-3 h-3" />
-            <Sparkles className="absolute bottom-2 left-2 text-pink-200/30 w-3 h-3" />
-            <Sparkles className="absolute bottom-2 right-2 text-pink-200/30 w-3 h-3" />
+        {/* Inner Decorative Ring */}
+        <div className="absolute inset-2 border border-dashed border-[#f0d1f5]/10 rounded-[2.2rem] pointer-events-none"></div>
+        
+        {/* Top Soft Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#f0d1f5]/5 rounded-full blur-3xl group-hover:bg-[#f0d1f5]/10 transition-all"></div>
 
-            {/* Header */}
-            <div className="flex justify-between items-start mb-4 relative z-10">
-                <span className={`font-mono font-bold text-[10px] px-2 py-0.5 rounded border bg-black/20 backdrop-blur-md ${RANK_COLORS[quest.rank]}`}>
-                    RANK {quest.rank}
-                </span>
-                <span className="font-bold text-cyan-300 text-xs drop-shadow-sm">{quest.xp} XP</span>
+        {/* Content Container */}
+        <div className="flex-1 p-6 flex flex-col items-center text-center relative z-10">
+            
+            {/* Header Row */}
+            <div className="w-full flex justify-between items-start px-1">
+                <div className="flex flex-col items-center gap-1">
+                    <div className="w-8 h-8 rounded-full border border-[#f0d1f5]/20 flex items-center justify-center bg-[#0b1021]" style={{ color }}>
+                        {icon}
+                    </div>
+                    <span className="font-serif font-bold text-xs opacity-80" style={{ color }}>{quest.rank}</span>
+                </div>
+                <div className="flex flex-col items-end">
+                    <div className="text-[8px] uppercase tracking-widest text-[#f0d1f5]/60 font-bold">XP</div>
+                    <div className="font-mono text-sm font-bold text-cyan-200">
+                        {quest.xp}
+                    </div>
+                </div>
             </div>
 
-            {/* Content */}
-            <div className="flex-1 relative z-10 flex flex-col items-center text-center mt-2">
-                <div className="mb-2 relative">
-                    <Star className="w-8 h-8 text-pink-500/20 fill-current absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 blur-sm" />
-                    <h3 className="font-serif font-bold text-lg text-pink-50 leading-tight mb-1 relative drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">{quest.title}</h3>
+            {/* Central Art */}
+            <div className="flex-1 flex items-center justify-center w-full my-4 relative">
+                {/* Flower Pattern */}
+                <div className="absolute text-[#f0d1f5]/5 group-hover:text-[#f0d1f5]/10 transition-colors duration-700 animate-spin-slow">
+                    <Flower2 size={120} strokeWidth={0.5} />
                 </div>
-                <p className="text-[9px] text-pink-300/60 uppercase tracking-widest mb-4 border-b border-pink-500/20 pb-1">
+                
+                {/* Central Icon */}
+                <div className="relative z-10 text-[#f0d1f5] group-hover:text-white transition-colors duration-500 group-hover:scale-110 transform drop-shadow-[0_0_10px_rgba(240,209,245,0.3)]">
+                    {quest.rank === 'SSS' ? <Sun size={40} strokeWidth={1.5} /> : 
+                     quest.rank === 'S' || quest.rank === 'SS' ? <Flower2 size={40} strokeWidth={1.5} /> :
+                     <Moon size={40} strokeWidth={1.5} />}
+                </div>
+            </div>
+
+            {/* Title Area */}
+            <div className="w-full pt-4 border-t border-[#f0d1f5]/10">
+                <h3 className="font-serif font-medium text-lg text-[#f0d1f5] mb-2 leading-tight tracking-wide group-hover:text-white transition-colors line-clamp-2">
+                    {quest.title}
+                </h3>
+                <p className="text-[9px] text-cyan-200/60 uppercase tracking-[0.15em] font-bold line-clamp-1">
                     {quest.subTitle}
                 </p>
-                <p className="text-[11px] text-pink-100/80 line-clamp-4 font-light leading-relaxed">
-                    {quest.description}
-                </p>
-            </div>
-
-            {/* Footer / Status Indicators */}
-            <div className="relative z-10 mt-auto flex justify-center h-6">
-                {status === 'accepted' && (
-                    <div className="flex items-center gap-1 text-blue-300 text-xs font-bold bg-blue-900/50 px-2 py-0.5 rounded-full border border-blue-500/30">
-                        <Paperclip size={12} /> <span>Accepted</span>
-                    </div>
-                )}
-                {status === 'completed' && (
-                    <div className="flex items-center gap-1 text-emerald-300 text-xs font-bold bg-emerald-900/50 px-2 py-0.5 rounded-full border border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.3)]">
-                        <span>★ COMPLETE</span>
-                    </div>
-                )}
             </div>
         </div>
+
+        {/* Status Indicators */}
+        {status === 'accepted' && (
+            <div className="absolute top-4 right-4">
+                <div className="w-2 h-2 bg-[#f0d1f5] rounded-full shadow-[0_0_8px_#f0d1f5] animate-pulse"></div>
+            </div>
+        )}
+        {status === 'completed' && (
+            <div className="absolute inset-0 bg-[#0b1021]/80 backdrop-blur-[1px] flex items-center justify-center z-20 rounded-[2.5rem]">
+                <div className="border border-[#f0d1f5] bg-[#f0d1f5] px-4 py-2 rounded-full flex items-center gap-2 shadow-[0_0_20px_rgba(240,209,245,0.4)] transform -rotate-12">
+                    <Check size={16} className="text-[#0b1021]" strokeWidth={3} />
+                    <span className="text-xs font-bold text-[#0b1021] uppercase tracking-widest">Verified</span>
+                </div>
+            </div>
+        )}
       </div>
     </div>
   );
