@@ -6,49 +6,79 @@ import DataDrivenGame from './games/compose-data-driven/DataDrivenGame';
 import ColumnAdventureGame from './games/column-adventure/ColumnAdventureGame';
 import RowAdventureGame from './games/row-adventure/RowAdventureGame';
 import BoxAdventureGame from './games/box-adventure/BoxAdventureGame';
+import ShapeClipGame from './games/shape-clip/ShapeClipGame';
 import ArrangementLabGame from './games/arrangement-lab/ArrangementLabGame';
+import AlignmentAdventureGame from './games/alignment-adventure/AlignmentAdventureGame';
+import ClickMagicGame from './games/click-magic/ClickMagicGame';
 import XiaoQi from './games/layout-magic/components/XiaoQi'; 
 import { GameId } from './types';
-import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box } from 'lucide-react';
+import { LayoutTemplate, Wand2, GraduationCap, Sparkles, Film, Layers, AlignHorizontalSpaceAround, SplitSquareHorizontal, Box, ArrowUpFromLine, MousePointerClick, Scissors } from 'lucide-react';
 
 export default function App() {
   const [activeGame, setActiveGame] = useState<GameId>('HOME');
 
-  if (activeGame === 'LAYOUT_MAGIC') {
-    return <LayoutMagicGame onExit={() => setActiveGame('HOME')} />;
-  }
-
+  // 1.1.1 Intro
   if (activeGame === 'COMPOSE_INTRO') {
     return <ComposeIntroGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.1.2 Data Driven
   if (activeGame === 'DATA_DRIVEN') {
     return <DataDrivenGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.2.1 Column
   if (activeGame === 'COLUMN_ADVENTURE') {
     return <ColumnAdventureGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.2.2 Row
   if (activeGame === 'ROW_ADVENTURE') {
     return <RowAdventureGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.2.3 Box
   if (activeGame === 'BOX_ADVENTURE') {
     return <BoxAdventureGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.2.4 Shape Clip
+  if (activeGame === 'SHAPE_CLIP') {
+    return <ShapeClipGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  // 1.3.2 Arrangement
   if (activeGame === 'ARRANGEMENT_LAB') {
     return <ArrangementLabGame onExit={() => setActiveGame('HOME')} />;
   }
 
+  // 1.3.3 Alignment
+  if (activeGame === 'ALIGNMENT_ADVENTURE') {
+    return <AlignmentAdventureGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  // 1.4.1 Click Magic
+  if (activeGame === 'CLICK_MAGIC') {
+    return <ClickMagicGame onExit={() => setActiveGame('HOME')} />;
+  }
+
+  // Final Challenge: Layout Magic
+  if (activeGame === 'LAYOUT_MAGIC') {
+    return <LayoutMagicGame onExit={() => setActiveGame('HOME')} />;
+  }
+
   return (
-    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 sm:p-8 font-sans">
+    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 sm:p-8 font-sans relative">
        {/* Background Decor */}
       <div className="absolute top-0 left-0 w-64 h-64 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
       <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
       
-      <div className="relative z-10 text-center max-w-6xl w-full">
+      {/* Xiao Qi Avatar - Top Left */}
+      <div className="absolute top-6 left-6 z-20 scale-75 origin-top-left sm:scale-100">
+         <XiaoQi emotion="happy" message="今天想学点什么新魔法呢？" />
+      </div>
+
+      <div className="relative z-10 text-center max-w-7xl w-full mt-12 sm:mt-0">
          <div className="mb-12 animate-fade-in-down">
             <h1 className="text-5xl sm:text-6xl font-bold text-amber-800 mb-4 tracking-tight">
               起司猫的 UI 魔法学院
@@ -58,7 +88,7 @@ export default function App() {
             </p>
          </div>
 
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mx-auto">
             
             {/* Game Card 1: Intro (1.1.1) */}
             <button 
@@ -160,7 +190,27 @@ export default function App() {
                 </div>
             </button>
 
-             {/* Game Card 6: Arrangement Lab (1.3.2) */}
+            {/* Game Card 6: Shape & Clip (1.2.4) */}
+            <button 
+                onClick={() => setActiveGame('SHAPE_CLIP')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-rose-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-rose-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-rose-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <Scissors size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-rose-700 transition-colors">1.2.4 形状裁剪</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        拿起魔法剪刀！Clip、Shape 与 Modifier 顺序的奥秘。
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-rose-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 布局基础
+                </div>
+            </button>
+
+             {/* Game Card 7: Arrangement Lab (1.3.2) */}
              <button 
                 onClick={() => setActiveGame('ARRANGEMENT_LAB')}
                 className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-pink-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
@@ -180,33 +230,68 @@ export default function App() {
                 </div>
             </button>
 
-            {/* Game Card 7: Layout Magic Book (Final) */}
-            <button 
-                onClick={() => setActiveGame('LAYOUT_MAGIC')}
-                className="group relative bg-amber-100 rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full md:col-span-2 lg:col-span-3"
+            {/* Game Card 8: Alignment Adventure (1.3.3) */}
+             <button 
+                onClick={() => setActiveGame('ALIGNMENT_ADVENTURE')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-teal-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
             >
-                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-amber-200 rounded-full -mr-10 -mt-10 transition-transform group-hover:scale-150 z-0"></div>
-                <div className="relative z-10 flex flex-row items-center gap-6 h-full">
-                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-amber-600 shadow-sm group-hover:rotate-6 transition-transform shrink-0">
-                        <LayoutTemplate size={32} />
+                <div className="absolute top-0 right-0 w-24 h-24 bg-teal-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center text-teal-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <ArrowUpFromLine size={24} />
                     </div>
-                    <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-amber-900 mb-2 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
-                        <p className="text-amber-800 text-sm leading-relaxed">
-                            综合实战演练，挑战复杂布局。Row, Column, Arrangement, Alignment 的终极考核！
-                        </p>
-                    </div>
-                     <div className="relative z-10 flex items-center text-amber-700 font-bold text-xs uppercase tracking-wider bg-white/50 px-3 py-1 rounded-full">
-                        <Sparkles size={14} className="mr-1" /> 终极挑战
-                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-teal-700 transition-colors">1.3.3 对齐探险</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        整理玩具箱，掌握 Cross-Axis 交叉轴的奥秘！
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-teal-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <GraduationCap size={12} className="mr-1" /> 进阶布局
                 </div>
             </button>
 
-         </div>
+            {/* Game Card 9: Click Magic (1.4.1) */}
+            <button 
+                onClick={() => setActiveGame('CLICK_MAGIC')}
+                className="group relative bg-white rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-violet-200 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                <div className="absolute top-0 right-0 w-24 h-24 bg-violet-100 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-violet-100 rounded-xl flex items-center justify-center text-violet-600 mb-4 shadow-sm group-hover:rotate-12 transition-transform">
+                        <MousePointerClick size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800 mb-1 group-hover:text-violet-700 transition-colors">1.4.1 交互魔法</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                        让 UI 活起来！掌握 Clickable 顺序与水波纹。
+                    </p>
+                </div>
+                <div className="relative z-10 flex items-center text-violet-600 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <Sparkles size={12} className="mr-1" /> 交互基础
+                </div>
+            </button>
 
-         <div className="mt-16 relative">
-             <XiaoQi emotion="happy" message="今天想学点什么新魔法呢？" />
+            {/* Game Card 10: Layout Magic Book (Final) */}
+            <button 
+                onClick={() => setActiveGame('LAYOUT_MAGIC')}
+                className="group relative bg-amber-100 rounded-[2rem] p-6 shadow-xl border-4 border-white hover:border-amber-300 transition-all duration-300 transform hover:-translate-y-2 hover:shadow-2xl text-left overflow-hidden flex flex-col h-full"
+            >
+                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-amber-200 rounded-full -mr-8 -mt-8 transition-transform group-hover:scale-150 z-0"></div>
+                
+                <div className="relative z-10 flex-1">
+                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-amber-600 mb-4 shadow-sm group-hover:rotate-6 transition-transform">
+                        <LayoutTemplate size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold text-amber-900 mb-1 group-hover:text-amber-700 transition-colors">布局魔法书</h3>
+                    <p className="text-amber-800/80 text-xs leading-relaxed mb-4">
+                        实战演练，挑战复杂布局。Row, Column, Arrangement, Alignment 的终极考核！
+                    </p>
+                </div>
+                 <div className="relative z-10 flex items-center text-amber-700 font-bold text-[10px] uppercase tracking-wider mt-auto">
+                    <Sparkles size={12} className="mr-1" /> 终极挑战
+                </div>
+            </button>
+
          </div>
       </div>
     </div>

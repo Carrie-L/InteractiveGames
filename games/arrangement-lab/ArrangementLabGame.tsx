@@ -736,7 +736,7 @@ export default function ArrangementLabGame({ onExit }: ArrangementLabGameProps) 
 
   return (
     <LabFrame 
-        title="1.3.2 Arrangement 实验室" 
+        title="1.3.1 Arrangement 实验室" 
         progress={currentStageIndex} 
         totalStages={STAGE_ORDER.length}
         onExit={onExit}
